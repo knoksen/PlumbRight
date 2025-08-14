@@ -5,7 +5,7 @@ export interface Part {
   price: number;
   imageUrl: string;
   aiHint: string;
-  category: 'Pipes & Fittings' | 'Valves' | 'Fixtures' | 'Tools & Sealants';
+  category: 'Pipes & Fittings' | 'Valves' | 'Fixtures' | 'Tools & Sealants' | 'Systems';
 }
 
 export const partsData: Part[] = [
@@ -73,6 +73,24 @@ export const partsData: Part[] = [
     aiHint: 'push coupling',
     category: 'Pipes & Fittings',
   },
+  {
+    id: 'abs-tee-4in',
+    name: '4" ABS DWV Tee',
+    description: '4-inch ABS tee for drain, waste, and vent applications. Hub x Hub x Hub.',
+    price: 5.49,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'abs tee',
+    category: 'Pipes & Fittings',
+  },
+  {
+    id: 'cpvc-adapter-1/2',
+    name: '1/2" CPVC Male Adapter',
+    description: 'CPVC male adapter, socket x MIPT. For hot and cold water distribution.',
+    price: 1.29,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'cpvc adapter',
+    category: 'Pipes & Fittings',
+  },
 
   // Valves
   {
@@ -100,6 +118,24 @@ export const partsData: Part[] = [
     price: 9.80,
     imageUrl: 'https://placehold.co/100x100.png',
     aiHint: 'angle stop',
+    category: 'Valves',
+  },
+  {
+    id: 'check-valve-1',
+    name: '1" Swing Check Valve',
+    description: 'PVC swing check valve to prevent backflow in sump pump and sewage applications.',
+    price: 22.15,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'check valve',
+    category: 'Valves',
+  },
+  {
+    id: 'pressure-reducing-valve',
+    name: '3/4" Pressure Reducing Valve',
+    description: 'Adjustable water pressure regulator for domestic water systems. Factory set at 50 psi.',
+    price: 65.00,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'pressure valve',
     category: 'Valves',
   },
 
@@ -140,6 +176,15 @@ export const partsData: Part[] = [
     aiHint: 'shower head',
     category: 'Fixtures',
   },
+  {
+    id: 'garbage-disposal-1/2hp',
+    name: '1/2 HP Garbage Disposal',
+    description: 'Continuous feed garbage disposal with a powerful 1/2 horsepower motor.',
+    price: 110.00,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'garbage disposal',
+    category: 'Fixtures',
+  },
 
   // Tools & Sealants
   {
@@ -177,5 +222,43 @@ export const partsData: Part[] = [
     imageUrl: 'https://placehold.co/100x100.png',
     aiHint: 'tubing cutter',
     category: 'Tools & Sealants',
+  },
+  {
+    id: 'pvc-cement',
+    name: 'PVC Cement',
+    description: '8 oz. can of medium-bodied fast-setting PVC cement for all schedules and classes.',
+    price: 8.79,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'pvc cement',
+    category: 'Tools & Sealants',
+  },
+
+  // Systems
+  {
+    id: 'pre-plumbed-water-heater-kit',
+    name: 'Water Heater Connection Kit',
+    description: 'Includes two 18" flexible water heater connectors and a 3/4" ball valve.',
+    price: 42.99,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'water heater',
+    category: 'Systems',
+  },
+  {
+    id: 'sump-pump-system',
+    name: '1/3 HP Sump Pump System',
+    description: 'Complete sump pump system with submersible pump, check valve, and discharge hose.',
+    price: 199.99,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'sump pump',
+    category: 'Systems',
+  },
+  {
+    id: 'under-sink-filtration-system',
+    name: 'Under-Sink Water Filtration System',
+    description: 'Two-stage system reduces chlorine, lead, and other contaminants. Includes dedicated faucet.',
+    price: 149.00,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'water filter',
+    category: 'Systems',
   },
 ];

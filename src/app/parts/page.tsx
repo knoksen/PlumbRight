@@ -16,7 +16,7 @@ export default function PartsLibraryPage() {
     return acc;
   }, {} as Record<Part['category'], Part[]>);
 
-  const categories = Object.keys(groupedParts) as Part['category'][];
+  const categories = Object.keys(groupedParts).sort() as Part['category'][];
 
   return (
     <div className="flex flex-col gap-8">
