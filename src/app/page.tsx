@@ -94,7 +94,7 @@ export default function DashboardPage() {
                   yAxisId="left"
                   tickLine={false}
                   axisLine={false}
-                  stroke="var(--color-revenue)"
+                  stroke="hsl(var(--chart-1))"
                   tickFormatter={(value) => `$${value / 1000}k`}
                 />
                 <YAxis
@@ -102,15 +102,15 @@ export default function DashboardPage() {
                   orientation="right"
                   tickLine={false}
                   axisLine={false}
-                  stroke="var(--color-quotes)"
+                  stroke="hsl(var(--chart-2))"
                 />
                 <ChartTooltip
                   cursor={true}
                   content={<ChartTooltipContent indicator="dot" />}
                 />
                 <ChartLegend content={<ChartLegendContent />} />
-                <Bar yAxisId="left" dataKey="revenue" fill="var(--color-revenue)" radius={[4, 4, 0, 0]} />
-                <Bar yAxisId="right" dataKey="quotes" fill="var(--color-quotes)" radius={[4, 4, 0, 0]} />
+                <Bar yAxisId="left" dataKey="revenue" fill="hsl(var(--chart-1))" radius={[4, 4, 0, 0]} />
+                <Bar yAxisId="right" dataKey="quotes" fill="hsl(var(--chart-2))" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </ChartContainer>
