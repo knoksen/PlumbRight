@@ -1,3 +1,4 @@
+
 export interface Part {
   id: string;
   name: string;
@@ -100,6 +101,33 @@ export const partsData: Part[] = [
     aiHint: 'dielectric union',
     category: 'Pipes & Fittings',
   },
+  {
+    id: 'flexible-gas-connector',
+    name: 'Flexible Gas Connector',
+    description: '48" stainless steel connector for gas ranges and dryers. 1/2" FIP x 1/2" FIP.',
+    price: 28.99,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'gas hose',
+    category: 'Pipes & Fittings',
+  },
+  {
+    id: 'cast-iron-hubless-coupling',
+    name: '3" Cast Iron Hubless Coupling',
+    description: 'Heavy-duty shielded coupling for joining no-hub cast iron soil pipe.',
+    price: 14.25,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'iron coupling',
+    category: 'Pipes & Fittings',
+  },
+  {
+    id: 'pvc-cleanout',
+    name: '4" PVC Cleanout with Plug',
+    description: 'Schedule 40 PVC cleanout adapter and threaded plug for drain line access.',
+    price: 7.89,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'pvc cleanout',
+    category: 'Pipes & Fittings',
+  },
 
   // Valves
   {
@@ -165,7 +193,24 @@ export const partsData: Part[] = [
     aiHint: 'backflow preventer',
     category: 'Valves',
   },
-
+  {
+    id: 'gas-shutoff-valve',
+    name: '1/2" Gas Shutoff Valve',
+    description: 'CSA approved brass ball valve for natural gas and propane lines.',
+    price: 14.99,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'gas valve',
+    category: 'Valves',
+  },
+  {
+    id: 'boiler-drain-valve',
+    name: '3/4" Boiler Drain Valve',
+    description: 'Multi-turn boiler drain or sediment faucet with male hose thread outlet.',
+    price: 7.95,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'drain valve',
+    category: 'Valves',
+  },
 
   // Fixtures
   {
@@ -231,6 +276,25 @@ export const partsData: Part[] = [
     aiHint: 'floor drain',
     category: 'Fixtures',
   },
+  {
+    id: 'urinal-commercial',
+    name: 'Commercial Urinal',
+    description: 'High-efficiency washout urinal, 0.5 GPF, top spud.',
+    price: 215.00,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'urinal',
+    category: 'Fixtures',
+  },
+  {
+    id: 'bathtub-alcove',
+    name: 'Alcove Bathtub',
+    description: '60" x 30" white acrylic alcove bathtub with right-hand drain.',
+    price: 289.00,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'bathtub',
+    category: 'Fixtures',
+  },
+
 
   // Tools & Sealants
   {
@@ -287,7 +351,24 @@ export const partsData: Part[] = [
     aiHint: 'crimping tool',
     category: 'Tools & Sealants',
   },
-
+  {
+    id: 'plumbers-putty',
+    name: 'Plumber\'s Putty',
+    description: '9 oz. container of stain-free plumber\'s putty for setting drains and fixtures.',
+    price: 3.49,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'plumbers putty',
+    category: 'Tools & Sealants',
+  },
+  {
+    id: 'closet-auger',
+    name: '3-Ft Closet Auger',
+    description: 'Drain auger specifically designed for clearing toilet clogs.',
+    price: 34.99,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'drain auger',
+    category: 'Tools & Sealants',
+  },
 
   // Systems
   {
@@ -335,6 +416,15 @@ export const partsData: Part[] = [
     aiHint: 'expansion tank',
     category: 'Systems',
   },
+  {
+    id: 'well-pressure-tank',
+    name: '20-Gallon Well Pressure Tank',
+    description: 'Pre-charged vertical pressure tank for residential well water systems.',
+    price: 220.00,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'pressure tank',
+    category: 'Systems',
+  },
 
   // Specialty
   {
@@ -362,6 +452,24 @@ export const partsData: Part[] = [
     price: 35.5,
     imageUrl: 'https://placehold.co/100x100.png',
     aiHint: 'primer valve',
+    category: 'Specialty',
+  },
+  {
+    id: 'air-admittance-valve',
+    name: 'Air Admittance Valve',
+    description: '1-1/2" x 2" mechanical vent for stacks or branches. DFU capacity varies.',
+    price: 25.99,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'air valve',
+    category: 'Specialty',
+  },
+  {
+    id: 'saddle-valve',
+    name: 'Self-Piercing Saddle Valve',
+    description: 'For tapping into existing copper lines to supply humidifiers or ice makers.',
+    price: 6.99,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'saddle valve',
     category: 'Specialty',
   },
 ];
