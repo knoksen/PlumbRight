@@ -40,7 +40,7 @@ function ThemeSwitcher() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon" className='h-9 w-9'>
+        <Button variant="ghost" size="icon" className='h-9 w-9'>
           <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
           <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
           <span className="sr-only">Toggle theme</span>
@@ -72,10 +72,14 @@ function Layout({ children }: { children: React.ReactNode }) {
   
   return (
       <SidebarInset>
-        <header className="no-print sticky top-0 z-10 flex h-16 items-center justify-between border-b bg-background/80 px-4 backdrop-blur-sm sm:px-6">
+        <header className="no-print sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background/95 px-4 backdrop-blur-sm sm:h-16 sm:px-6">
           <SidebarTrigger className="md:hidden" />
           <div className="flex items-center gap-4 ml-auto">
             <ThemeSwitcher />
+             <Avatar className="h-9 w-9">
+              <AvatarImage src="https://placehold.co/40x40.png" alt="User" />
+              <AvatarFallback>JD</AvatarFallback>
+            </Avatar>
           </div>
         </header>
         <main className="flex-1 p-4 sm:p-6">{children}</main>
@@ -91,10 +95,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     <SidebarProvider>
       <Sidebar>
         <SidebarHeader className="p-4">
-          <div className="flex items-center gap-3">
-            <Wrench className="size-8 text-primary" />
+          <Link href="/" className="flex items-center gap-3">
+            <Wrench className="size-7 text-primary" />
             <h1 className="text-2xl font-bold">PlumbRight</h1>
-          </div>
+          </Link>
         </SidebarHeader>
         <SidebarContent>
           <SidebarMenu>
@@ -119,19 +123,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </SidebarMenu>
         </SidebarContent>
         <SidebarFooter className="p-4">
-          <div className="flex items-center gap-3">
-            <Avatar>
-              <AvatarImage src="https://placehold.co/40x40.png" alt="User" />
-              <AvatarFallback>JD</AvatarFallback>
-            </Avatar>
-            <div className="flex flex-col">
-              <span className="font-semibold">John Doe</span>
-              <span className="text-xs text-muted-foreground">john.doe@email.com</span>
-            </div>
-            <Button variant="ghost" size="icon" className="ml-auto">
-              <LogOut className="size-4" />
-            </Button>
-          </div>
+          <Button variant="ghost">
+            <LogOut className="mr-2" />
+            Logout
+          </Button>
         </SidebarFooter>
       </Sidebar>
       <Layout>
