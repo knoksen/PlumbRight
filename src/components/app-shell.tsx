@@ -95,7 +95,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               <SidebarMenuItem key={item.href}>
                 <SidebarMenuButton
                   asChild
-                  isActive={pathname.startsWith(item.href) && (item.href !== '/' || pathname === '/')}
+                  isActive={item.href === '/' ? pathname === '/' : pathname.startsWith(item.href)}
                   tooltip={{
                     children: item.label,
                     className: 'no-print',
