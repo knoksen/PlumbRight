@@ -32,56 +32,15 @@ const menuItems = [
   { href: '/parts', label: 'Parts Library', icon: Library },
 ];
 
-export function AppShell({ children }: { children: React.ReactNode }) {
+function Layout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const isQuoteView = pathname === '/quote/view';
 
+  if (isQuoteView) {
+    return <main className="p-4 sm:p-6">{children}</main>;
+  }
+  
   return (
-    <SidebarProvider>
-      <Sidebar>
-        <SidebarHeader className="p-4">
-          <div className="flex items-center gap-3">
-            <Wrench className="size-8 text-primary" />
-            <h1 className="text-2xl font-bold">PlumbRight</h1>
-          </div>
-        </SidebarHeader>
-        <SidebarContent>
-          <SidebarMenu>
-            {menuItems.map((item) => (
-              <SidebarMenuItem key={item.href}>
-                <SidebarMenuButton
-                  asChild
-                  isActive={pathname === item.href}
-                  tooltip={{
-                    children: item.label,
-                    className: 'no-print',
-                  }}
-                >
-                  <Link href={item.href}>
-                    <item.icon />
-                    <span>{item.label}</span>
-                    {item.badge && <Badge variant="destructive" className="ml-auto">{item.badge}</Badge>}
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            ))}
-          </SidebarMenu>
-        </SidebarContent>
-        <SidebarFooter className="p-4">
-          <div className="flex items-center gap-3">
-            <Avatar>
-              <AvatarImage src="https://placehold.co/40x40.png" alt="User" />
-              <AvatarFallback>JD</AvatarFallback>
-            </Avatar>
-            <div className="flex flex-col">
-              <span className="font-semibold">John Doe</span>
-              <span className="text-xs text-muted-foreground">john.doe@email.com</span>
-            </div>
-            <Button variant="ghost" size="icon" className="ml-auto">
-              <LogOut className="size-4" />
-            </Button>
-          </div>
-        </SidebarFooter>
-      </Sidebar>
       <SidebarInset>
         <header className="no-print sticky top-0 z-10 flex h-16 items-center justify-between border-b bg-background/80 px-4 backdrop-blur-sm sm:px-6">
           <SidebarTrigger className="md:hidden" />
@@ -114,6 +73,63 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </header>
         <main className="flex-1 p-4 sm:p-6">{children}</main>
       </SidebarInset>
+  );
+}
+
+
+export function AppShell({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+
+  return (
+    <SidebarProvider>
+      <Sidebar>
+        <SidebarHeader className="p-4">
+          <div className="flex items-center gap-3">
+            <Wrench className="size-8 text-primary" />
+            <h1 className="text-2xl font-bold">PlumbRight</h1>
+          </div>
+        </SidebarHeader>
+        <SidebarContent>
+          <SidebarMenu>
+            {menuItems.map((item) => (
+              <SidebarMenuItem key={item.href}>
+                <SidebarMenuButton
+                  asChild
+                  isActive={pathname.startsWith(item.href) && (item.href !== '/' || pathname === '/')}
+                  tooltip={{
+                    children: item.label,
+                    className: 'no-print',
+                  }}
+                >
+                  <Link href={item.href}>
+                    <item.icon />
+                    <span>{item.label}</span>
+                    {item.badge && <Badge variant="destructive" className="ml-auto">{item.badge}</Badge>}
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            ))}
+          </SidebarMenu>
+        </SidebarContent>
+        <SidebarFooter className="p-4">
+          <div className="flex items-center gap-3">
+            <Avatar>
+              <AvatarImage src="https://placehold.co/40x40.png" alt="User" />
+              <AvatarFallback>JD</AvatarFallback>
+            </Avatar>
+            <div className="flex flex-col">
+              <span className="font-semibold">John Doe</span>
+              <span className="text-xs text-muted-foreground">john.doe@email.com</span>
+            </div>
+            <Button variant="ghost" size="icon" className="ml-auto">
+              <LogOut className="size-4" />
+            </Button>
+          </div>
+        </SidebarFooter>
+      </Sidebar>
+      <Layout>
+        {children}
+      </Layout>
     </SidebarProvider>
   );
 }

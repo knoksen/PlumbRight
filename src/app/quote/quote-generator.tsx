@@ -9,7 +9,9 @@ import { Label } from '@/components/ui/label';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, TableFooter } from '@/components/ui/table';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
-import { PlusCircle, X, Printer } from 'lucide-react';
+import { PlusCircle, X, Printer, FileText } from 'lucide-react';
+import { Textarea } from '@/components/ui/textarea';
+import { useRouter } from 'next/navigation';
 
 interface QuotedItem extends Part {
   quantity: number;
@@ -21,7 +23,16 @@ interface CustomLineItem {
   amount: number;
 }
 
+interface ProjectDetails {
+    projectName: string;
+    projectNumber: string;
+    customerName: string;
+    customerAddress: string;
+    quoteDate: string;
+}
+
 export function QuoteGenerator() {
+  const router = useRouter();
   const [quotedItems, setQuotedItems] = React.useState<QuotedItem[]>([]);
   const [selectedPart, setSelectedPart] = React.useState<string>('');
   const [customItems, setCustomItems] = React.useState<CustomLineItem[]>([]);
@@ -30,6 +41,19 @@ export function QuoteGenerator() {
   const [labor, setLabor] = React.useState(0);
   const [shipping, setShipping] = React.useState(0);
   const [taxRate, setTaxRate] = React.useState(8.5);
+
+  const [projectDetails, setProjectDetails] = React.useState<ProjectDetails>({
+      projectName: '',
+      projectNumber: '',
+      customerName: '',
+      customerAddress: '',
+      quoteDate: new Date().toISOString().split('T')[0],
+  });
+
+  const handleProjectDetailChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const { id, value } = e.target;
+      setProjectDetails(prev => ({...prev, [id]: value}));
+  }
 
   const handleAddPart = () => {
     if (!selectedPart) return;
@@ -81,14 +105,63 @@ export function QuoteGenerator() {
   const taxAmount = preTaxTotal * (taxRate / 100);
   const grandTotal = preTaxTotal + taxAmount;
   
-  const handlePrint = () => {
+  const handlePrintBOM = () => {
     window.print();
   };
+
+  const handleGenerateQuote = () => {
+      const quoteData = {
+          projectDetails,
+          quotedItems,
+          customItems,
+          costs: {
+              partsSubtotal,
+              markup,
+              markupAmount: markedUpSubtotal - partsSubtotal,
+              labor,
+              shipping,
+              preTaxTotal,
+              taxRate,
+              taxAmount,
+              grandTotal
+          }
+      };
+      sessionStorage.setItem('quoteData', JSON.stringify(quoteData));
+      router.push('/quote/view');
+  }
 
   return (
     <>
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-2 space-y-6">
+          <Card className="no-print">
+            <CardHeader>
+                <CardTitle>Project & Customer Details</CardTitle>
+            </CardHeader>
+            <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                 <div className="space-y-2">
+                    <Label htmlFor="projectName">Project Name</Label>
+                    <Input id="projectName" value={projectDetails.projectName} onChange={handleProjectDetailChange} placeholder="e.g., Master Bathroom Remodel" />
+                </div>
+                <div className="space-y-2">
+                    <Label htmlFor="projectNumber">Project Number</Label>
+                    <Input id="projectNumber" value={projectDetails.projectNumber} onChange={handleProjectDetailChange} placeholder="e.g., Q-1045" />
+                </div>
+                <div className="space-y-2">
+                    <Label htmlFor="customerName">Customer Name</Label>
+                    <Input id="customerName" value={projectDetails.customerName} onChange={handleProjectDetailChange} placeholder="e.g., Jane Smith" />
+                </div>
+                <div className="space-y-2">
+                    <Label htmlFor="quoteDate">Quote Date</Label>
+                    <Input id="quoteDate" type="date" value={projectDetails.quoteDate} onChange={handleProjectDetailChange} />
+                </div>
+                <div className="space-y-2 md:col-span-2">
+                    <Label htmlFor="customerAddress">Customer Address</Label>
+                    <Textarea id="customerAddress" value={projectDetails.customerAddress} onChange={handleProjectDetailChange} placeholder="e.g., 123 Main St, Anytown, USA" />
+                </div>
+            </CardContent>
+          </Card>
+
           <Card className="no-print">
             <CardHeader>
               <CardTitle>Parts & Materials</CardTitle>
@@ -154,7 +227,7 @@ export function QuoteGenerator() {
               </Table>
             </CardContent>
           </Card>
-          <Card className="mt-6 no-print">
+          <Card className="no-print">
              <CardHeader>
                 <CardTitle>Custom Line Items</CardTitle>
             </CardHeader>
@@ -238,8 +311,9 @@ export function QuoteGenerator() {
                 <span>${grandTotal.toFixed(2)}</span>
               </div>
             </CardContent>
-            <CardFooter className="no-print">
-               <Button className="w-full" onClick={handlePrint}><Printer className="mr-2 size-4" /> Export Bill of Materials</Button>
+            <CardFooter className="no-print flex-col gap-2">
+               <Button className="w-full" onClick={handleGenerateQuote}><FileText className="mr-2 size-4" /> Generate Quote</Button>
+               <Button className="w-full" variant="outline" onClick={handlePrintBOM}><Printer className="mr-2 size-4" /> Export Bill of Materials</Button>
             </CardFooter>
           </Card>
         </div>

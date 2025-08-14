@@ -1,9 +1,23 @@
+'use client';
+
 import type { Metadata } from 'next';
 import './globals.css';
 import { AppShell } from '@/components/app-shell';
 import { Toaster } from '@/components/ui/toaster';
+import { usePathname } from 'next/navigation';
 
-export const metadata: Metadata = {
+function LayoutWrapper({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  const isQuoteView = pathname === '/quote/view';
+
+  if (isQuoteView) {
+    return <main className="p-6 bg-gray-50 print:bg-white">{children}</main>;
+  }
+
+  return <AppShell>{children}</AppShell>;
+}
+
+const metadataBase: Metadata = {
   title: 'PlumbRight',
   description: 'AI-Powered Tools for Plumbing Professionals',
 };
@@ -16,6 +30,8 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <title>{String(metadataBase.title)}</title>
+        <meta name="description" content={String(metadataBase.description)} />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
@@ -24,7 +40,7 @@ export default function RootLayout({
         ></link>
       </head>
       <body className="font-body antialiased">
-        <AppShell>{children}</AppShell>
+        <LayoutWrapper>{children}</LayoutWrapper>
         <Toaster />
       </body>
     </html>
