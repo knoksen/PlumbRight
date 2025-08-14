@@ -4,6 +4,11 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTheme } from 'next-themes';
 import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '@/components/ui/collapsible';
+import {
   SidebarProvider,
   Sidebar,
   SidebarHeader,
@@ -22,17 +27,21 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Wrench, Calculator, Library, Home, LogOut, Sun, Moon, CheckCircle, Construction } from 'lucide-react';
+import { Wrench, Calculator, Library, Home, LogOut, Sun, Moon, CheckCircle, Construction, Wand2, ChevronDown, Shapes } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
+import { cn } from '@/lib/utils';
 
 const menuItems = [
   { href: '/', label: 'Dashboard', icon: Home },
-  { href: '/studio', label: 'Studio', icon: Construction },
-  { href: '/validate', label: 'Part Validation', icon: CheckCircle, badge: 'AI' },
-  { href: '/quote', label: 'Quote Generator', icon: Calculator, badge: 'AI' },
+  { href: '/studio', label: 'Studio', icon: Shapes },
   { href: '/parts', label: 'Parts Library', icon: Library },
 ];
+
+const aiTools = [
+    { href: '/validate', label: 'Part Validation', icon: CheckCircle },
+    { href: '/quote', label: 'Quote Generator', icon: Calculator },
+]
 
 function ThemeSwitcher() {
   const { setTheme } = useTheme();
@@ -115,11 +124,44 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                   <Link href={item.href}>
                     <item.icon />
                     <span>{item.label}</span>
-                    {item.badge && <Badge variant="destructive" className="ml-auto">{item.badge}</Badge>}
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             ))}
+
+             <Collapsible defaultOpen className="data-[state=open]:space-y-1">
+                <CollapsibleTrigger className="group flex w-full items-center justify-between rounded-md px-2 py-1.5 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground [&[data-state=open]>svg]:rotate-180">
+                  <div className="flex items-center gap-2">
+                    <Wand2 className="size-5" />
+                    <span>AI Tools</span>
+                  </div>
+                  <ChevronDown className="size-4 shrink-0 transition-transform duration-200" />
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                   <SidebarMenu className="ml-4">
+                        {aiTools.map((item) => (
+                          <SidebarMenuItem key={item.href}>
+                            <SidebarMenuButton
+                              asChild
+                              size="sm"
+                              isActive={pathname.startsWith(item.href)}
+                              tooltip={{
+                                children: item.label,
+                                className: 'no-print',
+                              }}
+                            >
+                              <Link href={item.href}>
+                                <item.icon />
+                                <span>{item.label}</span>
+                              </Link>
+                            </SidebarMenuButton>
+                          </SidebarMenuItem>
+                        ))}
+                    </SidebarMenu>
+                </CollapsibleContent>
+             </Collapsible>
+
+
           </SidebarMenu>
         </SidebarContent>
         <SidebarFooter className="p-4">
