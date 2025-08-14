@@ -5,7 +5,7 @@ export interface Part {
   price: number;
   imageUrl: string;
   aiHint: string;
-  category: 'Pipes & Fittings' | 'Valves' | 'Fixtures' | 'Tools & Sealants' | 'Systems';
+  category: 'Pipes & Fittings' | 'Valves' | 'Fixtures' | 'Tools & Sealants' | 'Systems' | 'Specialty';
 }
 
 export const partsData: Part[] = [
@@ -91,6 +91,15 @@ export const partsData: Part[] = [
     aiHint: 'cpvc adapter',
     category: 'Pipes & Fittings',
   },
+  {
+    id: 'dielectric-union-3-4',
+    name: '3/4" Dielectric Union',
+    description: 'Used to join pipes made from dissimilar metals to prevent corrosion. FIP x Solder.',
+    price: 11.79,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'dielectric union',
+    category: 'Pipes & Fittings',
+  },
 
   // Valves
   {
@@ -138,6 +147,25 @@ export const partsData: Part[] = [
     aiHint: 'pressure valve',
     category: 'Valves',
   },
+  {
+    id: 'thermostatic-mixing-valve',
+    name: 'Thermostatic Mixing Valve',
+    description: '1/2" Lead-free brass TMV. Mixes hot and cold water to deliver tempered water.',
+    price: 85.5,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'mixing valve',
+    category: 'Valves',
+  },
+  {
+    id: 'backflow-preventer-1',
+    name: '1" Backflow Preventer',
+    description: 'Reduced Pressure Zone (RPZ) backflow preventer for high-hazard applications.',
+    price: 250.0,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'backflow preventer',
+    category: 'Valves',
+  },
+
 
   // Fixtures
   {
@@ -183,6 +211,24 @@ export const partsData: Part[] = [
     price: 110.00,
     imageUrl: 'https://placehold.co/100x100.png',
     aiHint: 'garbage disposal',
+    category: 'Fixtures',
+  },
+  {
+    id: 'wall-hung-sink',
+    name: 'Wall-Hung Sink',
+    description: '24" Vitreous china wall-hung sink with single faucet hole. Requires carrier.',
+    price: 155.0,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'wall sink',
+    category: 'Fixtures',
+  },
+  {
+    id: 'floor-drain-3in',
+    name: '3" PVC Floor Drain',
+    description: 'PVC floor drain with 6" round stainless steel grate.',
+    price: 32.5,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'floor drain',
     category: 'Fixtures',
   },
 
@@ -232,6 +278,16 @@ export const partsData: Part[] = [
     aiHint: 'pvc cement',
     category: 'Tools & Sealants',
   },
+  {
+    id: 'pex-crimping-tool',
+    name: 'PEX Crimping Tool',
+    description: 'Full-size PEX crimping tool for 1/2" and 3/4" copper crimp rings.',
+    price: 59.99,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'crimping tool',
+    category: 'Tools & Sealants',
+  },
+
 
   // Systems
   {
@@ -260,5 +316,52 @@ export const partsData: Part[] = [
     imageUrl: 'https://placehold.co/100x100.png',
     aiHint: 'water filter',
     category: 'Systems',
+  },
+  {
+    id: 'tankless-water-heater',
+    name: 'Electric Tankless Water Heater',
+    description: '240V, 27kW on-demand water heater for whole-house use. Requires professional installation.',
+    price: 499.0,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'tankless heater',
+    category: 'Systems',
+  },
+  {
+    id: 'expansion-tank-2gal',
+    name: '2.1 Gallon Potable Water Expansion Tank',
+    description: 'For use with water heaters to control pressure build-up from thermal expansion.',
+    price: 49.95,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'expansion tank',
+    category: 'Systems',
+  },
+
+  // Specialty
+  {
+    id: 'water-hammer-arrestor',
+    name: 'Water Hammer Arrestor',
+    description: 'AA size, 1/2" MIP connection. Absorbs pressure spikes in water lines.',
+    price: 15.29,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'hammer arrestor',
+    category: 'Specialty',
+  },
+  {
+    id: 'grease-interceptor-20lb',
+    name: '20 lb. Grease Interceptor',
+    description: 'Steel grease trap for commercial sinks. 10 GPM flow rate.',
+    price: 189.0,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'grease trap',
+    category: 'Specialty',
+  },
+  {
+    id: 'trap-primer-valve',
+    name: 'Trap Primer Valve',
+    description: '1/2" MIP connection trap primer valve. Automatically maintains trap seal.',
+    price: 35.5,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'primer valve',
+    category: 'Specialty',
   },
 ];
