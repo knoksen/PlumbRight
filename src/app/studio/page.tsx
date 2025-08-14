@@ -4,7 +4,7 @@ import * as React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Draggable } from '@/components/draggable';
-import { Pipe, Circle, Square, Minus } from 'lucide-react';
+import { Minus, Circle, Square } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
 interface StudioItem {
@@ -14,7 +14,7 @@ interface StudioItem {
 }
 
 const paletteItems: StudioItem[] = [
-  { id: 'pipe', component: <Pipe className="size-8" />, name: 'Pipe' },
+  { id: 'pipe', component: <Minus className="size-8 rotate-45" />, name: 'Pipe' },
   { id: 'elbow', component: <div className="h-8 w-8 border-l-4 border-t-4 border-gray-500" />, name: 'Elbow' },
   { id: 'tee', component: <div className="relative h-8 w-8"><div className="absolute h-8 w-1 bg-gray-500 left-1/2 -translate-x-1/2" /><div className="absolute w-8 h-1 bg-gray-500 top-1/2 -translate-y-1/2" /></div>, name: 'Tee' },
   { id: 'valve', component: <Circle className="size-8" />, name: 'Valve' },
