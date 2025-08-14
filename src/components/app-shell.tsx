@@ -22,14 +22,14 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Wrench, Calculator, Library, Home, LogOut, Sun, Moon } from 'lucide-react';
+import { Wrench, Calculator, Library, Home, LogOut, Sun, Moon, CheckCircle } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 
 const menuItems = [
   { href: '/', label: 'Dashboard', icon: Home },
-  { href: '/validate', label: 'Part Validation', icon: Wrench, badge: 'AI' },
-  { href: '/quote', label: 'Quote Generator', icon: Calculator },
+  { href: '/validate', label: 'Part Validation', icon: CheckCircle, badge: 'AI' },
+  { href: '/quote', label: 'Quote Generator', icon: Calculator, badge: 'AI' },
   { href: '/parts', label: 'Parts Library', icon: Library },
 ];
 

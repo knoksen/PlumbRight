@@ -114,7 +114,7 @@ export function QuoteAiAssistant({ open, onOpenChange, onApply }: QuoteAiAssista
                         </div>
                          <div>
                             <h5 className="font-semibold mb-1">Estimated Labor</h5>
-                            <p className="text-muted-foreground bg-secondary p-3 rounded-md">{suggestion.estimatedLaborHours} hours</p>
+                            <p className="text-muted-foreground bg-secondary p-3 rounded-md">{suggestion.estimatedLaborHours > 0 ? `${suggestion.estimatedLaborHours} hours` : 'Not specified'}</p>
                         </div>
                         <div>
                             <h5 className="font-semibold mb-1">Suggested Scope of Work</h5>
