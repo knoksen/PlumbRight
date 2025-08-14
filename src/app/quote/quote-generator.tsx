@@ -31,6 +31,7 @@ interface ProjectDetails {
     customerName: string;
     customerAddress: string;
     quoteDate: string;
+    scopeOfWork: string;
 }
 
 export function QuoteGenerator() {
@@ -50,6 +51,7 @@ export function QuoteGenerator() {
       customerName: '',
       customerAddress: '',
       quoteDate: new Date().toISOString().split('T')[0],
+      scopeOfWork: '',
   });
 
   const [isAssistantOpen, setIsAssistantOpen] = React.useState(false);
@@ -88,9 +90,10 @@ export function QuoteGenerator() {
         ]);
     }
 
-    // Add scope of work to project details (if a field for it exists)
-    // For now, we'll log it. A good enhancement would be to add a scope field.
-    console.log("Suggested Scope of Work:", suggestion.suggestedScopeOfWork);
+    setProjectDetails(prev => ({
+        ...prev,
+        scopeOfWork: suggestion.suggestedScopeOfWork
+    }));
   };
 
   const handleProjectDetailChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -210,6 +213,10 @@ export function QuoteGenerator() {
                 <div className="space-y-2 md:col-span-2">
                     <Label htmlFor="customerAddress">Customer Address</Label>
                     <Textarea id="customerAddress" value={projectDetails.customerAddress} onChange={handleProjectDetailChange} placeholder="e.g., 123 Main St, Anytown, USA" />
+                </div>
+                 <div className="space-y-2 md:col-span-2">
+                    <Label htmlFor="scopeOfWork">Scope of Work</Label>
+                    <Textarea id="scopeOfWork" value={projectDetails.scopeOfWork} onChange={handleProjectDetailChange} placeholder="Describe the work to be performed..." className="h-24" />
                 </div>
             </CardContent>
           </Card>

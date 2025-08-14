@@ -17,6 +17,7 @@ interface QuoteData {
         customerName: string;
         customerAddress: string;
         quoteDate: string;
+        scopeOfWork: string;
     };
     quotedItems: {
         id: string;
@@ -113,6 +114,13 @@ export default function QuoteViewPage() {
                         <p className="font-bold">{projectDetails.projectName}</p>
                     </div>
                 </section>
+                
+                 {projectDetails.scopeOfWork && (
+                    <section className="mb-8">
+                        <h3 className="text-sm font-semibold text-gray-500 uppercase mb-2">Scope of Work</h3>
+                        <p className="text-muted-foreground whitespace-pre-wrap">{projectDetails.scopeOfWork}</p>
+                    </section>
+                )}
                 
                 <section>
                     <Table>
