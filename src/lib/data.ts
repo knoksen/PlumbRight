@@ -6,7 +6,7 @@ export interface Part {
   price: number;
   imageUrl: string;
   aiHint: string;
-  category: 'Pipes & Fittings' | 'Valves' | 'Fixtures' | 'Tools & Sealants' | 'Systems' | 'Specialty';
+  category: 'Pipes & Fittings' | 'Valves' | 'Fixtures' | 'Tools & Sealants' | 'Systems' | 'Specialty' | 'Rare & Obsolete Parts';
 }
 
 export const partsData: Part[] = [
@@ -679,5 +679,52 @@ export const partsData: Part[] = [
     imageUrl: 'https://placehold.co/100x100.png',
     aiHint: 'escutcheon plate',
     category: 'Specialty',
+  },
+
+  // Rare & Obsolete Parts
+  {
+    id: 'lead-bend',
+    name: '4" Lead Closet Bend',
+    description: 'A lead bend for connecting a toilet to a cast iron soil pipe. Requires skilled installation.',
+    price: 95.0,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'lead pipe',
+    category: 'Rare & Obsolete Parts',
+  },
+  {
+    id: 'drum-trap',
+    name: '1-1/2" Brass Drum Trap',
+    description: 'A cylindrical trap used in older plumbing systems, typically for bathtubs. Not for new installs.',
+    price: 125.0,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'brass trap',
+    category: 'Rare & Obsolete Parts',
+  },
+  {
+    id: 'wiped-joint-tools',
+    name: 'Wiping Cloth & Ladle',
+    description: 'Specialized tools for creating a "wiped" solder joint on lead pipes.',
+    price: 75.0,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'metal tools',
+    category: 'Rare & Obsolete Parts',
+  },
+  {
+    id: 'oakum',
+    name: 'Oakum Rope',
+    description: 'Tar-impregnated hemp or jute fiber used for packing cast iron pipe joints before pouring lead.',
+    price: 22.5,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'tar rope',
+    category: 'Rare & Obsolete Parts',
+  },
+  {
+    id: 'cast-iron-hub',
+    name: '4" Cast Iron Soil Pipe Hub',
+    description: 'A section of cast iron pipe with a bell-shaped hub for lead and oakum joints.',
+    price: 48.0,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'iron pipe',
+    category: 'Rare & Obsolete Parts',
   },
 ];
