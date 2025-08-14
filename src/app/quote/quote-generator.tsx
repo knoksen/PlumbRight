@@ -9,9 +9,11 @@ import { Label } from '@/components/ui/label';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, TableFooter } from '@/components/ui/table';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
-import { PlusCircle, X, Printer, FileText } from 'lucide-react';
+import { PlusCircle, X, Printer, FileText, Wand2 } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
 import { useRouter } from 'next/navigation';
+import { QuoteAiAssistant } from './quote-ai-assistant';
+import type { SuggestQuoteItemsOutput } from '@/ai/flows/suggest-quote-items';
 
 interface QuotedItem extends Part {
   quantity: number;
@@ -49,6 +51,47 @@ export function QuoteGenerator() {
       customerAddress: '',
       quoteDate: new Date().toISOString().split('T')[0],
   });
+
+  const [isAssistantOpen, setIsAssistantOpen] = React.useState(false);
+
+  const handleApplySuggestion = (suggestion: SuggestQuoteItemsOutput) => {
+    // Add suggested parts
+    const newItems: QuotedItem[] = [];
+    suggestion.suggestedParts.forEach(suggestedPart => {
+        const partInfo = partsData.find(p => p.id === suggestedPart.partId);
+        if (partInfo) {
+            newItems.push({ ...partInfo, quantity: suggestedPart.quantity });
+        }
+    });
+    setQuotedItems(prev => {
+        const updated = [...prev];
+        newItems.forEach(newItem => {
+            const existingIndex = updated.findIndex(i => i.id === newItem.id);
+            if (existingIndex > -1) {
+                updated[existingIndex].quantity += newItem.quantity;
+            } else {
+                updated.push(newItem);
+            }
+        });
+        return updated;
+    });
+
+    // Add estimated labor as a custom line item
+    if (suggestion.estimatedLaborHours > 0) {
+        setCustomItems(prev => [
+            ...prev,
+            {
+                id: crypto.randomUUID(),
+                description: `Estimated Labor (${suggestion.estimatedLaborHours} hrs)`,
+                amount: 0 // Let user fill in the rate
+            }
+        ]);
+    }
+
+    // Add scope of work to project details (if a field for it exists)
+    // For now, we'll log it. A good enhancement would be to add a scope field.
+    console.log("Suggested Scope of Work:", suggestion.suggestedScopeOfWork);
+  };
 
   const handleProjectDetailChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       const { id, value } = e.target;
@@ -132,11 +175,20 @@ export function QuoteGenerator() {
 
   return (
     <>
+      <QuoteAiAssistant 
+        open={isAssistantOpen}
+        onOpenChange={setIsAssistantOpen}
+        onApply={handleApplySuggestion}
+      />
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div className="lg:col-span-2 space-y-6">
           <Card className="no-print">
-            <CardHeader>
+            <CardHeader className='flex-row items-center justify-between'>
                 <CardTitle>Project & Customer Details</CardTitle>
+                 <Button variant="outline" onClick={() => setIsAssistantOpen(true)}>
+                    <Wand2 className="mr-2 size-4" />
+                    AI Assistant
+                </Button>
             </CardHeader>
             <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
                  <div className="space-y-2">
