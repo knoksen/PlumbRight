@@ -1,10 +1,10 @@
 
 'use client';
 
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { TrendingUp, Wrench, Calculator, Users } from 'lucide-react';
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import { ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent } from '@/components/ui/chart';
 
 const chartData = [
   { month: 'Jan', quotes: 12, revenue: 2400 },
@@ -16,14 +16,14 @@ const chartData = [
 ];
 
 const chartConfig = {
-  quotes: {
-    label: 'Quotes',
-    color: 'hsl(var(--primary))',
-  },
   revenue: {
     label: 'Revenue',
-    color: 'hsl(var(--secondary))',
-  }
+    color: 'hsl(var(--chart-1))',
+  },
+  quotes: {
+    label: 'Quotes',
+    color: 'hsl(var(--chart-2))',
+  },
 }
 
 export default function DashboardPage() {
@@ -77,7 +77,7 @@ export default function DashboardPage() {
       </div>
       <Card>
         <CardHeader>
-          <CardTitle>Monthly Quote Activity</CardTitle>
+          <CardTitle>Monthly Activity</CardTitle>
         </CardHeader>
         <CardContent className="pl-2">
           <ChartContainer config={chartConfig} className="h-[350px] w-full">
@@ -91,12 +91,15 @@ export default function DashboardPage() {
                   axisLine={false}
                   tickFormatter={(value) => value.slice(0, 3)}
                 />
-                <YAxis />
+                <YAxis yAxisId="left" stroke="hsl(var(--chart-1))" />
+                <YAxis yAxisId="right" orientation="right" stroke="hsl(var(--chart-2))" />
                 <Tooltip
-                  cursor={false}
+                  cursor={true}
                   content={<ChartTooltipContent indicator="dot" />}
                 />
-                <Bar dataKey="quotes" fill="var(--color-quotes)" radius={4} />
+                <Legend content={<ChartLegendContent />} />
+                <Bar yAxisId="left" dataKey="revenue" fill="var(--color-revenue)" radius={4} />
+                <Bar yAxisId="right" dataKey="quotes" fill="var(--color-quotes)" radius={4} />
               </BarChart>
             </ResponsiveContainer>
           </ChartContainer>
