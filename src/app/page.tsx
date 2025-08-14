@@ -1,4 +1,3 @@
-
 'use client';
 
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
@@ -24,7 +23,7 @@ const chartConfig = {
     label: 'Quotes',
     color: 'hsl(var(--chart-2))',
   },
-}
+};
 
 export default function DashboardPage() {
   return (
@@ -82,7 +81,7 @@ export default function DashboardPage() {
         <CardContent className="pl-2">
           <ChartContainer config={chartConfig} className="h-[350px] w-full">
             <ResponsiveContainer>
-              <BarChart data={chartData}>
+              <BarChart data={chartData} margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
                 <CartesianGrid vertical={false} />
                 <XAxis
                   dataKey="month"
@@ -91,15 +90,27 @@ export default function DashboardPage() {
                   axisLine={false}
                   tickFormatter={(value) => value.slice(0, 3)}
                 />
-                <YAxis yAxisId="left" stroke="hsl(var(--chart-1))" />
-                <YAxis yAxisId="right" orientation="right" stroke="hsl(var(--chart-2))" />
-                <Tooltip
+                <YAxis
+                  yAxisId="left"
+                  tickLine={false}
+                  axisLine={false}
+                  stroke="var(--color-revenue)"
+                  tickFormatter={(value) => `$${value / 1000}k`}
+                />
+                <YAxis
+                  yAxisId="right"
+                  orientation="right"
+                  tickLine={false}
+                  axisLine={false}
+                  stroke="var(--color-quotes)"
+                />
+                <ChartTooltip
                   cursor={true}
                   content={<ChartTooltipContent indicator="dot" />}
                 />
-                <Legend content={<ChartLegendContent />} />
-                <Bar yAxisId="left" dataKey="revenue" fill="var(--color-revenue)" radius={4} />
-                <Bar yAxisId="right" dataKey="quotes" fill="var(--color-quotes)" radius={4} />
+                <ChartLegend content={<ChartLegendContent />} />
+                <Bar yAxisId="left" dataKey="revenue" fill="var(--color-revenue)" radius={[4, 4, 0, 0]} />
+                <Bar yAxisId="right" dataKey="quotes" fill="var(--color-quotes)" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </ChartContainer>

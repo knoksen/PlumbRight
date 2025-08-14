@@ -2,6 +2,7 @@
 import * as React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useTheme } from 'next-themes';
 import {
   SidebarProvider,
   Sidebar,
@@ -21,7 +22,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Wrench, Calculator, Library, Home, Globe, Languages, LogOut } from 'lucide-react';
+import { Wrench, Calculator, Library, Home, LogOut, Sun, Moon } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 
@@ -31,6 +32,34 @@ const menuItems = [
   { href: '/quote', label: 'Quote Generator', icon: Calculator },
   { href: '/parts', label: 'Parts Library', icon: Library },
 ];
+
+function ThemeSwitcher() {
+  const { setTheme } = useTheme();
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline" size="icon" className='h-9 w-9'>
+          <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+          <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+          <span className="sr-only">Toggle theme</span>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuItem onClick={() => setTheme('light')}>
+          Light
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setTheme('dark')}>
+          Dark
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setTheme('system')}>
+          System
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+
 
 function Layout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -44,31 +73,8 @@ function Layout({ children }: { children: React.ReactNode }) {
       <SidebarInset>
         <header className="no-print sticky top-0 z-10 flex h-16 items-center justify-between border-b bg-background/80 px-4 backdrop-blur-sm sm:px-6">
           <SidebarTrigger className="md:hidden" />
-          <div className="flex items-center gap-4">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm">
-                  <Languages className="mr-2 size-4" />
-                  English
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuItem>English</DropdownMenuItem>
-                <DropdownMenuItem>Español</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm">
-                  <Globe className="mr-2 size-4" />
-                  USA (USD)
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuItem>USA (USD)</DropdownMenuItem>
-                <DropdownMenuItem>Canada (CAD)</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+          <div className="flex items-center gap-4 ml-auto">
+            <ThemeSwitcher />
           </div>
         </header>
         <main className="flex-1 p-4 sm:p-6">{children}</main>

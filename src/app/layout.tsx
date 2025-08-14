@@ -5,6 +5,7 @@ import './globals.css';
 import { AppShell } from '@/components/app-shell';
 import { Toaster } from '@/components/ui/toaster';
 import { usePathname } from 'next/navigation';
+import { ThemeProvider } from '@/components/theme-provider';
 
 function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -40,8 +41,15 @@ export default function RootLayout({
         ></link>
       </head>
       <body className="font-body antialiased">
-        <LayoutWrapper>{children}</LayoutWrapper>
-        <Toaster />
+        <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+        >
+            <LayoutWrapper>{children}</LayoutWrapper>
+            <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   );
