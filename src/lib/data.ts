@@ -155,6 +155,24 @@ export const partsData: Part[] = [
     aiHint: 'pvc reducer',
     category: 'Pipes & Fittings',
   },
+  {
+    id: 'black-iron-pipe-24in',
+    name: 'Black Iron Pipe, 1/2" x 24"',
+    description: 'Schedule 40 black iron pipe for gas and air applications.',
+    price: 12.99,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'iron pipe',
+    category: 'Pipes & Fittings',
+  },
+  {
+    id: 'fernco-coupling-4in',
+    name: '4" Flexible Coupling',
+    description: 'Flexible PVC coupling for connecting dissimilar pipes. Stainless steel clamps.',
+    price: 9.75,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'flexible coupling',
+    category: 'Pipes & Fittings',
+  },
 
 
   // Valves
@@ -257,6 +275,25 @@ export const partsData: Part[] = [
     aiHint: 'hose bibb',
     category: 'Valves',
   },
+  {
+    id: 't-p-relief-valve',
+    name: 'Temperature & Pressure Relief Valve',
+    description: '3/4" T&P relief valve for water heaters. 150 PSI, 210°F.',
+    price: 18.99,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'relief valve',
+    category: 'Valves',
+  },
+  {
+    id: 'solenoid-valve-12v',
+    name: '1/2" 12V DC Solenoid Valve',
+    description: 'Normally closed electric solenoid valve for automated water control.',
+    price: 26.50,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'solenoid valve',
+    category: 'Valves',
+  },
+
 
   // Fixtures
   {
@@ -403,6 +440,24 @@ export const partsData: Part[] = [
     aiHint: 'tub spout',
     category: 'Fixtures',
   },
+  {
+    id: 'toilet-fill-valve',
+    name: 'Universal Toilet Fill Valve',
+    description: 'Adjustable anti-siphon fill valve for most standard toilets.',
+    price: 14.99,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'toilet fill valve',
+    category: 'Fixtures',
+  },
+  {
+    id: 'toilet-flapper-3in',
+    name: '3-inch Toilet Flapper',
+    description: 'Universal 3-inch flapper for large flush valve toilets. Corrosion resistant.',
+    price: 8.99,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'toilet flapper',
+    category: 'Fixtures',
+  },
 
 
   // Tools & Sealants
@@ -514,6 +569,24 @@ export const partsData: Part[] = [
     aiHint: 'propane torch',
     category: 'Tools & Sealants',
   },
+  {
+    id: 'caulking-gun',
+    name: 'Dripless Caulking Gun',
+    description: '9-inch steel skeleton frame caulking gun with smooth rod.',
+    price: 12.49,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'caulking gun',
+    category: 'Tools & Sealants',
+  },
+  {
+    id: 'lead-free-solder',
+    name: 'Lead-Free Solder Wire',
+    description: '1/2 lb. spool of silver-bearing lead-free solid wire solder for potable water.',
+    price: 28.95,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'solder wire',
+    category: 'Tools & Sealants',
+  },
 
   // Systems
   {
@@ -606,6 +679,24 @@ export const partsData: Part[] = [
     aiHint: 'recirculating pump',
     category: 'Systems',
   },
+  {
+    id: 'sewage-ejector-pump',
+    name: '1/2 HP Sewage Ejector Pump',
+    description: 'Cast iron pump designed to move sewage from a basement to a septic line.',
+    price: 320.00,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'sewage pump',
+    category: 'Systems',
+  },
+  {
+    id: 'radiant-heat-manifold',
+    name: '5-Loop Stainless Steel Manifold',
+    description: 'Pre-assembled manifold for radiant floor heating systems.',
+    price: 210.00,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'radiant manifold',
+    category: 'Systems',
+  },
 
   // Specialty
   {
@@ -680,6 +771,24 @@ export const partsData: Part[] = [
     aiHint: 'escutcheon plate',
     category: 'Specialty',
   },
+  {
+    id: 'fire-sprinkler-head',
+    name: 'Pendent Fire Sprinkler Head',
+    description: 'Standard coverage, 155°F temperature rating, 1/2" NPT.',
+    price: 12.50,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'sprinkler head',
+    category: 'Specialty',
+  },
+  {
+    id: 'backwater-valve',
+    name: '4" PVC Backwater Valve',
+    description: 'Prevents sewage from backing up into a building. Installs on main drain line.',
+    price: 75.00,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'backwater valve',
+    category: 'Specialty',
+  },
 
   // Rare & Obsolete Parts
   {
@@ -725,6 +834,24 @@ export const partsData: Part[] = [
     price: 48.0,
     imageUrl: 'https://placehold.co/100x100.png',
     aiHint: 'iron pipe',
+    category: 'Rare & Obsolete Parts',
+  },
+  {
+    id: 'faucet-valve-seat',
+    name: 'Crane Dial-ese Faucet Valve Seat',
+    description: 'Replacement valve seat for vintage Crane faucets. Hard to find part.',
+    price: 28.0,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'faucet seat',
+    category: 'Rare & Obsolete Parts',
+  },
+  {
+    id: 'high-tank-toilet-parts',
+    name: 'High-Tank Toilet Flush Pipe Kit',
+    description: 'Chrome-plated brass flush pipe and fittings for high-tank pull-chain toilets.',
+    price: 195.0,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'toilet parts',
     category: 'Rare & Obsolete Parts',
   },
 ];
