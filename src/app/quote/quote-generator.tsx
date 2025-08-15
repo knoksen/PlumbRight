@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from 'react';
@@ -14,6 +15,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { useRouter } from 'next/navigation';
 import { QuoteAiAssistant } from './quote-ai-assistant';
 import type { SuggestQuoteItemsOutput } from '@/ai/flows/suggest-quote-items';
+import { useLocalStorage } from '@/hooks/use-local-storage';
 
 interface QuotedItem extends Part {
   quantity: number;
@@ -56,11 +58,15 @@ export function QuoteGenerator() {
 
   const [isAssistantOpen, setIsAssistantOpen] = React.useState(false);
 
+  const [customParts] = useLocalStorage<Part[]>('customParts', []);
+  const allParts = React.useMemo(() => [...partsData, ...customParts], [customParts]);
+
+
   const handleApplySuggestion = (suggestion: SuggestQuoteItemsOutput) => {
     // Add suggested parts
     const newItems: QuotedItem[] = [];
     suggestion.suggestedParts.forEach(suggestedPart => {
-        const partInfo = partsData.find(p => p.id === suggestedPart.partId);
+        const partInfo = allParts.find(p => p.id === suggestedPart.partId);
         if (partInfo) {
             newItems.push({ ...partInfo, quantity: suggestedPart.quantity });
         }
@@ -103,7 +109,7 @@ export function QuoteGenerator() {
 
   const handleAddPart = () => {
     if (!selectedPart) return;
-    const partToAdd = partsData.find((p) => p.id === selectedPart);
+    const partToAdd = allParts.find((p) => p.id === selectedPart);
     if (!partToAdd) return;
 
     setQuotedItems((prev) => {
@@ -232,7 +238,7 @@ export function QuoteGenerator() {
                     <SelectValue placeholder="Select a part to add" />
                   </SelectTrigger>
                   <SelectContent>
-                    {partsData.map((part) => (
+                    {allParts.map((part) => (
                       <SelectItem key={part.id} value={part.id}>
                         {part.name}
                       </SelectItem>
