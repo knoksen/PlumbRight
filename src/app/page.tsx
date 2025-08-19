@@ -1,9 +1,17 @@
+
 'use client';
 
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { TrendingUp, Wrench, Calculator, Users } from 'lucide-react';
-import { ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent } from '@/components/ui/chart';
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+  ChartLegend,
+  ChartLegendContent,
+  type ChartConfig,
+} from '@/components/ui/chart';
 
 const chartData = [
   { month: 'Jan', quotes: 12, revenue: 2400 },
@@ -23,7 +31,7 @@ const chartConfig = {
     label: 'Quotes',
     color: 'hsl(var(--chart-2))',
   },
-};
+} satisfies ChartConfig;
 
 export default function DashboardPage() {
   return (
@@ -79,40 +87,30 @@ export default function DashboardPage() {
           <CardTitle>Monthly Activity</CardTitle>
         </CardHeader>
         <CardContent className="pl-2">
-          <ChartContainer config={chartConfig} className="h-[350px] w-full">
-            <ResponsiveContainer>
-              <BarChart data={chartData} margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
-                <CartesianGrid vertical={false} />
-                <XAxis
-                  dataKey="month"
-                  tickLine={false}
-                  tickMargin={10}
-                  axisLine={false}
-                  tickFormatter={(value) => value.slice(0, 3)}
-                />
-                <YAxis
-                  yAxisId="left"
-                  tickLine={false}
-                  axisLine={false}
-                  stroke="hsl(var(--chart-1))"
-                  tickFormatter={(value) => `$${value / 1000}k`}
-                />
-                <YAxis
-                  yAxisId="right"
-                  orientation="right"
-                  tickLine={false}
-                  axisLine={false}
-                  stroke="hsl(var(--chart-2))"
-                />
-                <ChartTooltip
-                  cursor={true}
-                  content={<ChartTooltipContent indicator="dot" />}
-                />
-                <ChartLegend content={<ChartLegendContent />} />
-                <Bar yAxisId="left" dataKey="revenue" fill="hsl(var(--chart-1))" radius={[4, 4, 0, 0]} />
-                <Bar yAxisId="right" dataKey="quotes" fill="hsl(var(--chart-2))" radius={[4, 4, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
+           <ChartContainer config={chartConfig} className="h-[350px] w-full">
+            <BarChart accessibilityLayer data={chartData} margin={{ top: 20, left: 12, right: 12 }}>
+              <CartesianGrid vertical={false} />
+              <YAxis
+                tickLine={false}
+                axisLine={false}
+                stroke="hsl(var(--muted-foreground))"
+                tickFormatter={(value) => `$${value / 1000}k`}
+              />
+              <XAxis
+                dataKey="month"
+                tickLine={false}
+                tickMargin={10}
+                axisLine={false}
+                tickFormatter={(value) => value.slice(0, 3)}
+              />
+              <ChartTooltip
+                cursor={false}
+                content={<ChartTooltipContent indicator="dot" />}
+              />
+               <ChartLegend content={<ChartLegendContent />} />
+              <Bar dataKey="revenue" fill="hsl(var(--chart-1))" radius={4} />
+              <Bar dataKey="quotes" fill="hsl(var(--chart-2))" radius={4} />
+            </BarChart>
           </ChartContainer>
         </CardContent>
       </Card>
