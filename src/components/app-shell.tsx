@@ -1,3 +1,4 @@
+
 'use client';
 import * as React from 'react';
 import Link from 'next/link';
@@ -34,7 +35,7 @@ import { cn } from '@/lib/utils';
 
 const menuItems = [
   { href: '/', label: 'Dashboard', icon: Home },
-  { href: '/studio', label: 'Studio', icon: Shapes },
+  { href: '/studio', label: 'Studio', icon: Construction },
   { href: '/parts', label: 'Parts Library', icon: Library },
 ];
 

@@ -1,57 +1,75 @@
+
 'use client';
 
 import * as React from 'react';
+import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Draggable } from '@/components/draggable';
-import { Minus, Circle, Square } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { partsData, type Part } from '@/lib/data';
+import { Line } from '@/components/line';
 
-interface StudioItem {
-  id: string;
-  component: React.ReactNode;
-  name: string;
-}
-
-const paletteItems: StudioItem[] = [
-  { id: 'pipe', component: <Minus className="size-8 rotate-45" />, name: 'Pipe' },
-  { id: 'elbow', component: <div className="h-8 w-8 border-l-4 border-t-4 border-gray-500" />, name: 'Elbow' },
-  { id: 'tee', component: <div className="relative h-8 w-8"><div className="absolute h-8 w-1 bg-gray-500 left-1/2 -translate-x-1/2" /><div className="absolute w-8 h-1 bg-gray-500 top-1/2 -translate-y-1/2" /></div>, name: 'Tee' },
-  { id: 'valve', component: <Circle className="size-8" />, name: 'Valve' },
-  { id: 'pump', component: <Square className="size-8" />, name: 'Pump' },
-  { id: 'sink', component: <div className="w-10 h-6 border-2 border-gray-500 rounded-sm" />, name: 'Sink' },
+// A curated list of parts for the palette
+const paletteParts: Part[] = [
+  partsData.find(p => p.id === 'pvc-elbow-90')!,
+  partsData.find(p => p.id === 'copper-pipe-10ft')!,
+  partsData.find(p => p.id === 'ball-valve-1/2')!,
+  partsData.find(p => p.id === 'sink-faucet-chrome')!,
+  partsData.find(p => p.id === 'p-trap-1-1-2')!,
+  partsData.find(p => p.id === 'pex-tubing-blue-100ft')!,
+  partsData.find(p => p.id === 'gas-shutoff-valve')!,
+  partsData.find(p => p.id === 'sump-pump-system')!,
 ];
 
 interface PlacedItem {
   id: string;
+  part: Part;
   x: number;
   y: number;
-  type: string;
-  name: string;
+  width: number;
+  height: number;
+}
+
+interface ConnectionPoint {
+  itemId: string;
+  x: number;
+  y: number;
+}
+
+interface Connection {
+  id: string;
+  from: ConnectionPoint;
+  to: ConnectionPoint;
 }
 
 export default function StudioPage() {
   const [placedItems, setPlacedItems] = React.useState<PlacedItem[]>([]);
+  const [connections, setConnections] = React.useState<Connection[]>([]);
+  const [drawingLine, setDrawingLine] = React.useState<{ from: ConnectionPoint, to: {x: number, y: number} } | null>(null);
   const canvasRef = React.useRef<HTMLDivElement>(null);
 
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     if (!canvasRef.current) return;
 
-    const dataString = e.dataTransfer.getData('application/json');
-    if (!dataString) return;
-
-    const { id: type, name } = JSON.parse(dataString);
+    const partString = e.dataTransfer.getData('application/json');
+    if (!partString) return;
+    
+    const { part } = JSON.parse(partString) as { part: Part };
     const canvasRect = canvasRef.current.getBoundingClientRect();
     const x = e.clientX - canvasRect.left;
     const y = e.clientY - canvasRect.top;
+    const width = 80;
+    const height = 80;
 
     const newItem: PlacedItem = {
       id: crypto.randomUUID(),
-      type,
-      name,
-      x,
-      y,
+      part,
+      x: x - width / 2,
+      y: y - height / 2,
+      width,
+      height,
     };
     setPlacedItems((prev) => [...prev, newItem]);
   };
@@ -62,19 +80,49 @@ export default function StudioPage() {
 
   const handleClear = () => {
     setPlacedItems([]);
+    setConnections([]);
+    setDrawingLine(null);
   };
   
-  const getComponentForType = (type: string) => {
-    const item = paletteItems.find(p => p.id === type);
-    return item ? React.cloneElement(item.component as React.ReactElement, {className: "size-10 text-primary"}) : null;
+  const getConnectionPoints = (item: PlacedItem): ConnectionPoint[] => {
+      return [
+        { itemId: item.id, x: item.x + item.width / 2, y: item.y }, // Top
+        { itemId: item.id, x: item.x + item.width, y: item.y + item.height / 2 }, // Right
+        { itemId: item.id, x: item.x + item.width / 2, y: item.y + item.height }, // Bottom
+        { itemId: item.id, x: item.x, y: item.y + item.height / 2 }, // Left
+      ];
   }
+
+  const handleMouseDownOnPoint = (fromPoint: ConnectionPoint) => {
+    setDrawingLine({ from: fromPoint, to: { x: fromPoint.x, y: fromPoint.y } });
+  };
+  
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!drawingLine || !canvasRef.current) return;
+    const canvasRect = canvasRef.current.getBoundingClientRect();
+    setDrawingLine(prev => prev ? { ...prev, to: { x: e.clientX - canvasRect.left, y: e.clientY - canvasRect.top } } : null);
+  };
+
+  const handleMouseUpOnPoint = (toPoint: ConnectionPoint) => {
+    if (!drawingLine || drawingLine.from.itemId === toPoint.itemId) {
+      setDrawingLine(null);
+      return;
+    }
+    const newConnection: Connection = {
+      id: crypto.randomUUID(),
+      from: drawingLine.from,
+      to: toPoint,
+    };
+    setConnections(prev => [...prev, newConnection]);
+    setDrawingLine(null);
+  };
 
   return (
     <div className="flex flex-col gap-8 h-[calc(100vh-8rem)]">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Design Studio</h1>
         <p className="text-muted-foreground">
-          Visually plan your plumbing projects by dragging components onto the canvas.
+          Visually plan your plumbing projects by dragging components onto the canvas and connecting them.
         </p>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-6 flex-1 min-h-0">
@@ -85,11 +133,11 @@ export default function StudioPage() {
           <CardContent className="flex-1">
             <ScrollArea className="h-full pr-4">
               <div className="grid grid-cols-2 gap-4">
-                {paletteItems.map((item) => (
-                  <Draggable key={item.id} id={item.id} data={{ name: item.name }}>
-                    <div className="flex flex-col items-center justify-center gap-2 p-4 border rounded-md hover:bg-accent hover:text-accent-foreground transition-colors aspect-square">
-                      {item.component}
-                      <span className="text-xs font-medium text-center">{item.name}</span>
+                {paletteParts.map((part) => (
+                  <Draggable key={part.id} id={part.id} data={{ part }}>
+                    <div className="flex flex-col items-center justify-center gap-2 p-2 border rounded-md hover:bg-accent hover:text-accent-foreground transition-colors aspect-square">
+                      <Image src={part.imageUrl} alt={part.name} width={48} height={48} className="h-12 w-12 object-contain" data-ai-hint={part.aiHint} />
+                      <span className="text-xs font-medium text-center">{part.name}</span>
                     </div>
                   </Draggable>
                 ))}
@@ -106,16 +154,38 @@ export default function StudioPage() {
             ref={canvasRef}
             onDrop={handleDrop}
             onDragOver={handleDragOver}
-            className="flex-1 relative bg-muted/20 rounded-md border-2 border-dashed"
+            onMouseMove={handleMouseMove}
+            onMouseUp={() => setDrawingLine(null)} // Cancel drawing if mouse is released on canvas
+            className="flex-1 relative bg-muted/20 rounded-md border-2 border-dashed overflow-hidden"
           >
+            <svg className="absolute top-0 left-0 w-full h-full pointer-events-none">
+              {connections.map(conn => (
+                <Line key={conn.id} from={conn.from} to={conn.to} />
+              ))}
+               {drawingLine && <Line from={drawingLine.from} to={drawingLine.to} isTemporary />}
+            </svg>
+
             {placedItems.map((item) => (
               <div
                 key={item.id}
-                className="absolute flex flex-col items-center"
-                style={{ left: `${item.x}px`, top: `${item.y}px`, transform: 'translate(-50%, -50%)' }}
+                className="absolute flex flex-col items-center justify-center bg-background/80 p-2 rounded-md shadow-md"
+                style={{ left: `${item.x}px`, top: `${item.y}px`, width: `${item.width}px`, height: `${item.height}px` }}
               >
-                {getComponentForType(item.type)}
-                <span className="text-xs mt-1 bg-background/80 px-1 rounded">{item.name}</span>
+                <Image src={item.part.imageUrl} alt={item.part.name} layout="fill" className="object-contain p-2" data-ai-hint={item.part.aiHint}/>
+                <span className="absolute -bottom-5 text-xs bg-background/80 px-1 rounded">{item.part.name}</span>
+                 {/* Connection Points */}
+                {getConnectionPoints(item).map((point, index) => (
+                    <div
+                        key={index}
+                        className="absolute w-3 h-3 bg-blue-500 rounded-full cursor-pointer hover:bg-blue-300 z-10"
+                        style={{
+                            left: `${point.x - item.x - 6}px`,
+                            top: `${point.y - item.y - 6}px`,
+                        }}
+                        onMouseDown={(e) => { e.stopPropagation(); handleMouseDownOnPoint(point); }}
+                        onMouseUp={(e) => { e.stopPropagation(); handleMouseUpOnPoint(point); }}
+                    />
+                ))}
               </div>
             ))}
              {placedItems.length === 0 && (
