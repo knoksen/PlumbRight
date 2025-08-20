@@ -1,7 +1,9 @@
+
 'use client';
 
 import * as React from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -13,7 +15,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { useToast } from '@/hooks/use-toast';
 import { handleValidation } from './actions';
 import type { ValidatePlumbingPartOutput } from '@/ai/flows/validate-plumbing-part';
-import { Upload, Wand2, CheckCircle, Info, Loader2 } from 'lucide-react';
+import { Upload, Wand2, CheckCircle, Info, Loader2, PlusCircle } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
 
 const formSchema = z.object({
@@ -24,10 +26,12 @@ const formSchema = z.object({
 });
 
 type ValidationResult = ValidatePlumbingPartOutput & {
-  photoUrl: string;
+  photoDataUrl: string;
+  originalDescription: string;
 };
 
 export function ValidationForm() {
+  const router = useRouter();
   const [photoPreview, setPhotoPreview] = React.useState<string | null>(null);
   const [isLoading, setIsLoading] = React.useState(false);
   const [result, setResult] = React.useState<ValidationResult | null>(null);
@@ -53,6 +57,16 @@ export function ValidationForm() {
     }
   };
 
+  const handleSaveToLibrary = () => {
+    if (!result) return;
+    const params = new URLSearchParams({
+        name: result.partType,
+        description: `${result.originalDescription}\n\nAI Suggestion: Identified as a ${result.partType} made of ${result.material} with a ${result.connectionType} connection.`,
+        photoDataUrl: result.photoDataUrl
+    });
+    router.push(`/parts/new?${params.toString()}`);
+  }
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
     setResult(null);
@@ -66,7 +80,11 @@ export function ValidationForm() {
           description: values.description,
           photoDataUri: photoDataUri,
         });
-        setResult({ ...validationResult, photoUrl: photoDataUri });
+        setResult({ 
+          ...validationResult, 
+          photoDataUrl: photoDataUri,
+          originalDescription: values.description 
+        });
       } catch (error) {
         console.error('Validation failed:', error);
         toast({
@@ -113,7 +131,7 @@ export function ValidationForm() {
                           className="flex h-48 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-border transition-colors hover:border-primary"
                         >
                           {photoPreview ? (
-                            <Image src={photoPreview} alt="Part preview" width={160} height={160} className="h-full w-auto object-contain" />
+                            <Image src={photoPreview} alt="Part preview" width={160} height={160} className="h-full w-auto object-contain p-2" />
                           ) : (
                             <div className="flex flex-col items-center gap-2 text-muted-foreground">
                               <Upload className="size-8" />
@@ -151,20 +169,20 @@ export function ValidationForm() {
         </Form>
       </Card>
 
-      <Card>
+      <Card className="flex flex-col">
         <CardHeader>
           <CardTitle>Validation Results</CardTitle>
           <CardDescription>AI-powered suggestions will appear here.</CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="flex-1">
           {isLoading && (
-            <div className="flex flex-col items-center justify-center gap-4 py-16 text-muted-foreground">
+            <div className="flex flex-col items-center justify-center gap-4 py-16 text-muted-foreground h-full">
               <Loader2 className="size-12 animate-spin text-primary" />
               <p>Analyzing part... Please wait.</p>
             </div>
           )}
           {!isLoading && !result && (
-            <div className="flex flex-col items-center justify-center gap-4 py-16 text-muted-foreground">
+            <div className="flex flex-col items-center justify-center gap-4 py-16 text-muted-foreground h-full">
               <Info className="size-12" />
               <p>Results will be shown here after submission.</p>
             </div>
@@ -172,7 +190,7 @@ export function ValidationForm() {
           {result && (
             <div className="space-y-6">
                 <div className="flex justify-center">
-                    <Image src={result.photoUrl} alt="Validated part" width={200} height={200} className="rounded-lg object-contain shadow-md" />
+                    <Image src={result.photoDataUrl} alt="Validated part" width={200} height={200} className="rounded-lg object-contain shadow-md" />
                 </div>
               <div className="space-y-4">
                 <div className="flex items-start gap-3">
@@ -210,8 +228,16 @@ export function ValidationForm() {
             </div>
           )}
         </CardContent>
-         <CardFooter className="text-xs text-muted-foreground">
-              Disclaimer: AI suggestions are for reference only. Always verify part compatibility and specifications.
+         <CardFooter className="flex-col gap-2">
+            {result && (
+                <Button className="w-full" onClick={handleSaveToLibrary}>
+                    <PlusCircle className="mr-2 h-4 w-4"/>
+                    Save to Custom Library
+                </Button>
+            )}
+            <p className="text-xs text-muted-foreground text-center">
+                Disclaimer: AI suggestions are for reference only. Always verify part compatibility and specifications.
+            </p>
         </CardFooter>
       </Card>
     </div>
