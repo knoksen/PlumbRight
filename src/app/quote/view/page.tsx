@@ -145,7 +145,7 @@ export default function QuoteViewPage() {
                                     <TableCell className="text-center px-4">{item.quantity}</TableCell>
                                     <TableCell className="text-right px-4">${item.price.toFixed(2)}</TableCell>
                                     <TableCell className="text-right px-4 font-medium">${(item.price * item.quantity).toFixed(2)}</TableCell>
-                                </TableRow>
+                                 </TableRow>
                             ))}
                              {hasCustomItems && (
                                  <TableRow className="bg-gray-50 font-semibold text-gray-600 text-xs">

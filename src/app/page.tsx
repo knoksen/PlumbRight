@@ -3,7 +3,7 @@
 
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { TrendingUp, Wrench, Calculator, Users, Construction } from 'lucide-react';
+import { TrendingUp, Wrench, Calculator, Construction } from 'lucide-react';
 import Link from 'next/link';
 import {
   ChartContainer,
