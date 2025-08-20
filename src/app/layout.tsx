@@ -9,7 +9,7 @@ import { ThemeProvider } from '@/components/theme-provider';
 
 function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const isQuoteView = pathname === '/quote/view';
+  const isQuoteView = pathname.startsWith('/quote/view') || pathname.startsWith('/quote/bill-of-materials');
 
   if (isQuoteView) {
     return <main className="p-6 bg-gray-50 print:bg-white">{children}</main>;

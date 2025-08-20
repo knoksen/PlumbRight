@@ -164,7 +164,11 @@ export function QuoteGenerator() {
   const grandTotal = preTaxTotal + taxAmount;
   
   const handlePrintBOM = () => {
-    const bomData = { quotedItems, partsSubtotal };
+    const bomData = { 
+        projectDetails,
+        quotedItems, 
+        partsSubtotal 
+    };
     sessionStorage.setItem('bomData', JSON.stringify(bomData));
     const url = `/quote/bill-of-materials`;
     window.open(url, '_blank');
