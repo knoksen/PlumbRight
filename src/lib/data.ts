@@ -173,7 +173,33 @@ export const partsData: Part[] = [
     aiHint: 'flexible coupling',
     category: 'Pipes & Fittings',
   },
-
+  {
+    id: 'pvc-cap-3-4',
+    name: '3/4" PVC Socket Cap',
+    description: 'Schedule 40 PVC cap for terminating a 3/4" pipe run. Socket connection.',
+    price: 0.95,
+    imageUrl: 'https://placehold.co/64x64.png',
+    aiHint: 'pvc cap',
+    category: 'Pipes & Fittings',
+  },
+  {
+    id: 'copper-tee-1-2',
+    name: '1/2" Copper Tee',
+    description: 'Standard copper tee for branching a 1/2" water line. Sweat connections.',
+    price: 1.89,
+    imageUrl: 'https://placehold.co/64x64.png',
+    aiHint: 'copper tee',
+    category: 'Pipes & Fittings',
+  },
+  {
+    id: 'pex-elbow-90-1-2',
+    name: '1/2" PEX 90-Degree Barb Elbow',
+    description: 'Brass barb elbow for making a 90-degree turn in 1/2" PEX tubing.',
+    price: 2.15,
+    imageUrl: 'https://placehold.co/64x64.png',
+    aiHint: 'pex elbow',
+    category: 'Pipes & Fittings',
+  },
 
   // Valves
   {
@@ -293,7 +319,24 @@ export const partsData: Part[] = [
     aiHint: 'solenoid valve',
     category: 'Valves',
   },
-
+  {
+    id: 'straight-stop-valve-1-2',
+    name: '1/2" x 3/8" Straight Stop Valve',
+    description: 'Chrome-plated straight shutoff valve. Quarter-turn operation, compression fit.',
+    price: 9.95,
+    imageUrl: 'https://placehold.co/64x64.png',
+    aiHint: 'stop valve',
+    category: 'Valves',
+  },
+  {
+    id: 'foot-valve-1-1-4',
+    name: '1-1/4" PVC Foot Valve',
+    description: 'Used at the end of a suction line to hold prime in a pump system.',
+    price: 18.75,
+    imageUrl: 'https://placehold.co/64x64.png',
+    aiHint: 'foot valve',
+    category: 'Valves',
+  },
 
   // Fixtures
   {
@@ -458,7 +501,24 @@ export const partsData: Part[] = [
     aiHint: 'toilet flapper',
     category: 'Fixtures',
   },
-
+  {
+    id: 'pop-up-drain-assembly',
+    name: 'Bathroom Sink Pop-Up Drain Assembly',
+    description: 'Chrome-plated brass pop-up drain assembly with lift rod and overflow.',
+    price: 28.50,
+    imageUrl: 'https://placehold.co/64x64.png',
+    aiHint: 'pop up drain',
+    category: 'Fixtures',
+  },
+  {
+    id: 'shower-arm-flange',
+    name: 'Shower Arm and Flange',
+    description: '6-inch chrome shower arm with matching wall flange.',
+    price: 13.99,
+    imageUrl: 'https://placehold.co/64x64.png',
+    aiHint: 'shower arm',
+    category: 'Fixtures',
+  },
 
   // Tools & Sealants
   {
@@ -587,6 +647,24 @@ export const partsData: Part[] = [
     aiHint: 'solder wire',
     category: 'Tools & Sealants',
   },
+  {
+    id: 'pipe-reamer',
+    name: 'Inner/Outer Pipe Reamer',
+    description: 'Deburrs and cleans the inside and outside of freshly cut pipes.',
+    price: 8.99,
+    imageUrl: 'https://placehold.co/64x64.png',
+    aiHint: 'pipe reamer',
+    category: 'Tools & Sealants',
+  },
+  {
+    id: 'flux-paste',
+    name: 'Water-Soluble Flux Paste',
+    description: '4 oz. paste flux for soldering copper pipes. Lead-free and water-soluble.',
+    price: 6.49,
+    imageUrl: 'https://placehold.co/64x64.png',
+    aiHint: 'flux paste',
+    category: 'Tools & Sealants',
+  },
 
   // Systems
   {
@@ -697,6 +775,24 @@ export const partsData: Part[] = [
     aiHint: 'radiant manifold',
     category: 'Systems',
   },
+  {
+    id: 'hydronic-boiler-100k-btu',
+    name: '100,000 BTU Gas-Fired Hydronic Boiler',
+    description: 'High-efficiency condensing boiler for residential heating applications.',
+    price: 2800.00,
+    imageUrl: 'https://placehold.co/64x64.png',
+    aiHint: 'boiler',
+    category: 'Systems',
+  },
+  {
+    id: 'iron-filter-system',
+    name: 'Whole House Iron Filter System',
+    description: 'Reduces iron, manganese, and hydrogen sulfide. Chemical-free air injection system.',
+    price: 899.00,
+    imageUrl: 'https://placehold.co/64x64.png',
+    aiHint: 'iron filter',
+    category: 'Systems',
+  },
 
   // Specialty
   {
@@ -789,6 +885,24 @@ export const partsData: Part[] = [
     aiHint: 'backwater valve',
     category: 'Specialty',
   },
+  {
+    id: 'test-ball-plug-4in',
+    name: '4" Test Ball Plug',
+    description: 'Inflatable plug for temporarily blocking drain lines for testing.',
+    price: 35.00,
+    imageUrl: 'https://placehold.co/64x64.png',
+    aiHint: 'test ball',
+    category: 'Specialty',
+  },
+  {
+    id: 'pipe-thawing-machine',
+    name: 'Electric Pipe Thawing Machine',
+    description: 'Safely thaws frozen metal pipes by passing a low-voltage current through them.',
+    price: 450.00,
+    imageUrl: 'https://placehold.co/64x64.png',
+    aiHint: 'pipe thawer',
+    category: 'Specialty',
+  },
 
   // Rare & Obsolete Parts
   {
@@ -852,6 +966,24 @@ export const partsData: Part[] = [
     price: 195.0,
     imageUrl: 'https://placehold.co/64x64.png',
     aiHint: 'toilet parts',
+    category: 'Rare & Obsolete Parts',
+  },
+  {
+    id: 'spud-wrench',
+    name: 'Spud Wrench',
+    description: 'A specialized wrench for removing or installing the spud on toilets and urinals.',
+    price: 45.00,
+    imageUrl: 'https://placehold.co/64x64.png',
+    aiHint: 'spud wrench',
+    category: 'Rare & Obsolete Parts',
+  },
+  {
+    id: 'lead-pot-furnace',
+    name: 'Lead Melting Pot & Furnace',
+    description: 'A small furnace and pot for melting lead to pour cast iron soil pipe joints.',
+    price: 180.00,
+    imageUrl: 'https://placehold.co/64x64.png',
+    aiHint: 'lead pot',
     category: 'Rare & Obsolete Parts',
   },
 ];
