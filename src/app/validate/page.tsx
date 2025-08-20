@@ -1,3 +1,4 @@
+
 import { ValidationForm } from './validation-form';
 
 export default function ValidatePage() {
