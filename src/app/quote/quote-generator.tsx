@@ -206,7 +206,7 @@ export function QuoteGenerator() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Parts & Materials</CardTitle>
+            <CardTitle className="text-2xl">Parts & Materials</CardTitle>
               <CardDescription>Add parts from your library to the quote.</CardDescription>
           </CardHeader>
           <CardContent>
@@ -275,7 +275,7 @@ export function QuoteGenerator() {
         
           <Card>
             <CardHeader>
-              <CardTitle>Custom Line Items</CardTitle>
+              <CardTitle className="text-2xl">Custom Line Items</CardTitle>
               <CardDescription>Add custom services or charges that are not in your parts library.</CardDescription>
           </CardHeader>
           <CardContent>
@@ -302,7 +302,7 @@ export function QuoteGenerator() {
 
           <Card>
           <CardHeader>
-              <CardTitle>Project & Customer</CardTitle>
+              <CardTitle className="text-2xl">Project & Customer</CardTitle>
                 <CardDescription>Enter the details for this quote.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -337,7 +337,7 @@ export function QuoteGenerator() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Costs & Markups</CardTitle>
+            <CardTitle className="text-2xl">Costs & Markups</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-1">
@@ -361,7 +361,7 @@ export function QuoteGenerator() {
         
         <Card>
           <CardHeader>
-            <CardTitle>Quote Summary</CardTitle>
+            <CardTitle className="text-2xl">Quote Summary</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             <div className="flex justify-between">

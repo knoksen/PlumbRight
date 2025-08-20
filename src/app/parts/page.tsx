@@ -50,7 +50,7 @@ export default function PartsLibraryPage() {
         {categories.map((category) => (
           <Card key={category}>
             <CardHeader>
-              <CardTitle>{category}</CardTitle>
+              <CardTitle className="text-2xl">{category}</CardTitle>
             </CardHeader>
             <CardContent>
               <Table>

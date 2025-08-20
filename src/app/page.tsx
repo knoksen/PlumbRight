@@ -78,7 +78,7 @@ export default function DashboardPage() {
       </div>
       <Card>
         <CardHeader>
-          <CardTitle>Monthly Activity</CardTitle>
+          <CardTitle className="text-2xl">Monthly Activity</CardTitle>
         </CardHeader>
         <CardContent className="pl-2">
            <ChartContainer config={chartConfig} className="h-[350px] w-full">
