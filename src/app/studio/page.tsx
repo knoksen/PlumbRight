@@ -11,7 +11,18 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { partsData, type Part } from '@/lib/data';
 import { Line } from '@/components/line';
 import { cn } from '@/lib/utils';
-import { FileText } from 'lucide-react';
+import { FileText, Trash2 } from 'lucide-react';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 
 // A curated list of parts for the palette
 const paletteParts: Part[] = [
@@ -57,6 +68,21 @@ export default function StudioPage() {
   const [drawingLine, setDrawingLine] = React.useState<{ from: ConnectionPoint, to: {x: number, y: number} } | null>(null);
   const canvasRef = React.useRef<HTMLDivElement>(null);
   const [draggedItem, setDraggedItem] = React.useState<{id: string, offsetX: number, offsetY: number} | null>(null);
+  const [selectedItemId, setSelectedItemId] = React.useState<string | null>(null);
+
+
+  // --- Item Deletion ---
+  const handleDeleteItem = (itemId: string) => {
+    setPlacedItems(prev => prev.filter(item => item.id !== itemId));
+    setConnections(prev => prev.filter(conn => conn.from.itemId !== itemId && conn.to.itemId !== itemId));
+    setSelectedItemId(null);
+  };
+  
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if ((e.key === 'Backspace' || e.key === 'Delete') && selectedItemId) {
+      handleDeleteItem(selectedItemId);
+    }
+  }
 
 
   // --- Drag and Drop Handlers ---
@@ -94,15 +120,19 @@ export default function StudioPage() {
   };
 
   const handleItemDragStart = (e: React.MouseEvent<HTMLDivElement>, item: PlacedItem) => {
-    if (drawingLine) return; // Don't drag item if we're drawing a line
-    e.preventDefault();
+    // Prevent dragging if a line is being drawn
+    if (drawingLine || e.target instanceof HTMLButtonElement) return; 
+
+    // Select item on drag start
+    setSelectedItemId(item.id);
+    
     const offsetX = e.clientX - item.x;
     const offsetY = e.clientY - item.y;
     setDraggedItem({ id: item.id, offsetX, offsetY });
   };
   
   const handleCanvasMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    handleMouseMove(e); // For drawing line
+    handleLineDrawingMouseMove(e); // For drawing line
     if (draggedItem && canvasRef.current) {
         const canvasRect = canvasRef.current.getBoundingClientRect();
 
@@ -112,23 +142,22 @@ export default function StudioPage() {
         // Snap to grid
         newX = Math.round(newX / GRID_SIZE) * GRID_SIZE;
         newY = Math.round(newY / GRID_SIZE) * GRID_SIZE;
+        
+        const deltaX = newX - placedItems.find(item => item.id === draggedItem.id)!.x;
+        const deltaY = newY - placedItems.find(item => item.id === draggedItem.id)!.y;
 
         setPlacedItems(prev => prev.map(item => item.id === draggedItem.id ? { ...item, x: newX, y: newY } : item));
 
         // Update connections
         setConnections(prev => prev.map(conn => {
+            let newConn = { ...conn };
             if (conn.from.itemId === draggedItem.id) {
-                const fromItem = placedItems.find(p => p.id === draggedItem.id)!;
-                const newFromPoint = getConnectionPoints(fromItem).find(p => p.x === conn.from.x && p.y === conn.from.y) || conn.from;
-                const updatedPoint = { ...conn.from, x: conn.from.x - fromItem.x + newX, y: conn.from.y - fromItem.y + newY};
-                 return { ...conn, from: updatedPoint };
+                newConn = { ...newConn, from: { ...conn.from, x: conn.from.x + deltaX, y: conn.from.y + deltaY } };
             }
             if (conn.to.itemId === draggedItem.id) {
-                const toItem = placedItems.find(p => p.id === draggedItem.id)!;
-                const updatedPoint = { ...conn.to, x: conn.to.x - toItem.x + newX, y: conn.to.y - toItem.y + newY };
-                 return { ...conn, to: updatedPoint };
+                newConn = { ...newConn, to: { ...conn.to, x: conn.to.x + deltaX, y: conn.to.y + deltaY } };
             }
-            return conn;
+            return newConn;
         }));
     }
   };
@@ -143,7 +172,14 @@ export default function StudioPage() {
     setPlacedItems([]);
     setConnections([]);
     setDrawingLine(null);
+    setSelectedItemId(null);
   };
+
+  const handleCanvasClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.target === canvasRef.current) {
+        setSelectedItemId(null);
+    }
+  }
   
   const getConnectionPoints = React.useCallback((item: PlacedItem): ConnectionPoint[] => {
       return [
@@ -157,9 +193,10 @@ export default function StudioPage() {
   // --- Connection Drawing Handlers ---
   const handleMouseDownOnPoint = (fromPoint: ConnectionPoint) => {
     setDrawingLine({ from: fromPoint, to: { x: fromPoint.x, y: fromPoint.y } });
+    setSelectedItemId(null); // Deselect item when starting to draw a line
   };
   
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleLineDrawingMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!drawingLine || !canvasRef.current) return;
     const canvasRect = canvasRef.current.getBoundingClientRect();
     setDrawingLine(prev => prev ? { ...prev, to: { x: e.clientX - canvasRect.left, y: e.clientY - canvasRect.top } } : null);
@@ -233,7 +270,23 @@ export default function StudioPage() {
                     <FileText className="mr-2 size-4" />
                     Create Quote from Design
                 </Button>
-                <Button variant="outline" size="sm" onClick={handleClear}>Clear Canvas</Button>
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                     <Button variant="destructive" size="sm">Clear Canvas</Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        This will permanently delete all items and connections from your canvas. This action cannot be undone.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction onClick={handleClear}>Clear Canvas</AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
             </div>
           </CardHeader>
           <CardContent
@@ -241,12 +294,15 @@ export default function StudioPage() {
             onDrop={handleDrop}
             onDragOver={handleDragOver}
             onMouseMove={handleCanvasMouseMove}
-            onMouseUp={() => { handleItemDragEnd(); setDrawingLine(null); }}
+            onMouseUp={handleItemDragEnd}
             onMouseLeave={handleItemDragEnd}
-            className="flex-1 relative bg-muted/20 rounded-md border-2 border-dashed overflow-hidden cursor-default"
+            onClick={handleCanvasClick}
+            onKeyDown={handleKeyDown}
+            tabIndex={0} // Allows the div to be focused and receive key events
+            className="flex-1 relative bg-muted/20 rounded-md border-2 border-dashed overflow-hidden focus:outline-none focus:ring-2 focus:ring-primary"
           >
             {/* Grid background */}
-            <svg width="100%" height="100%" className="absolute inset-0">
+            <svg width="100%" height="100%" className="absolute inset-0 pointer-events-none">
               <defs>
                 <pattern id="grid" width={GRID_SIZE} height={GRID_SIZE} patternUnits="userSpaceOnUse">
                   <path d={`M ${GRID_SIZE} 0 L 0 0 0 ${GRID_SIZE}`} fill="none" stroke="hsl(var(--border))" strokeWidth="0.5"/>
@@ -258,13 +314,6 @@ export default function StudioPage() {
             {/* Connections */}
             <svg className="absolute top-0 left-0 w-full h-full pointer-events-none">
               {connections.map(conn => {
-                  const fromItem = placedItems.find(p => p.id === conn.from.itemId);
-                  const toItem = placedItems.find(p => p.id === conn.to.itemId);
-                  if (!fromItem || !toItem) return null;
-                  
-                  const fromPoint = getConnectionPoints(fromItem).find(p => p.x === conn.from.x && p.y === conn.from.y) || conn.from;
-                  const toPoint = getConnectionPoints(toItem).find(p => p.x === conn.to.x && p.y === conn.to.y) || conn.to;
-                  
                   return <Line key={conn.id} from={conn.from} to={conn.to} />
               })}
 
@@ -275,10 +324,12 @@ export default function StudioPage() {
             {placedItems.map((item) => (
               <div
                 key={item.id}
+                onClick={(e) => { e.stopPropagation(); setSelectedItemId(item.id); }}
                 onMouseDown={(e) => handleItemDragStart(e, item)}
                 className={cn(
-                    "group absolute flex flex-col items-center justify-center bg-background/80 p-2 rounded-md shadow-md hover:shadow-lg hover:border-primary border-transparent border-2 transition-all",
-                    draggedItem?.id === item.id ? "cursor-grabbing border-primary" : "cursor-grab"
+                    "group absolute flex flex-col items-center justify-center bg-background/80 p-2 rounded-md shadow-md border-2 transition-all",
+                    draggedItem?.id === item.id ? "cursor-grabbing" : "cursor-grab",
+                    selectedItemId === item.id ? "border-primary" : "border-transparent hover:border-primary/50"
                 )}
                 style={{ left: `${item.x}px`, top: `${item.y}px`, width: `${item.width}px`, height: `${item.height}px` }}
               >
@@ -303,8 +354,9 @@ export default function StudioPage() {
             
             {/* Empty Canvas Message */}
              {placedItems.length === 0 && (
-                <div className="flex items-center justify-center h-full text-muted-foreground pointer-events-none">
+                <div className="flex flex-col items-center justify-center h-full text-muted-foreground pointer-events-none">
                     <p>Drag components here to start designing</p>
+                    <p className="text-xs mt-2">Click an item to select it, then press 'Delete' to remove it.</p>
                 </div>
             )}
           </CardContent>
