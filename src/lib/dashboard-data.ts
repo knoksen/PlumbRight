@@ -23,4 +23,3 @@ export const chartConfig = {
 
 export const totalRevenue = 139100;
 export const revenueGrowth = 18.3;
-

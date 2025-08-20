@@ -28,7 +28,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Wrench, Calculator, Library, Home, LogOut, Sun, Moon, CheckCircle, Construction, Wand2, ChevronDown, Shapes } from 'lucide-react';
+import { Wrench, Calculator, Library, Home, LogOut, Sun, Moon, CheckCircle, Construction, Wand2, ChevronDown, Shapes, Building } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
@@ -106,8 +106,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <Sidebar>
         <SidebarHeader className="p-4">
           <Link href="/" className="flex items-center gap-3">
-            <Wrench className="size-7 text-primary" />
-            <h1 className="text-2xl font-bold">PlumbRight</h1>
+            <Building className="size-7 text-primary" />
+            <h1 className="text-2xl font-bold">MegaPlumb</h1>
           </Link>
         </SidebarHeader>
         <SidebarContent>

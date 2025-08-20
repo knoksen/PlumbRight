@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Separator } from '@/components/ui/separator';
-import { Printer, ArrowLeft, Wrench } from 'lucide-react';
+import { Printer, ArrowLeft, Building } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 interface QuoteData {
@@ -100,12 +100,12 @@ export default function QuoteViewPage() {
                     <header className="flex justify-between items-start mb-8 pb-4 border-b">
                         <div>
                             <div className="flex items-center gap-3 mb-4">
-                                <Wrench className="size-8 text-primary" />
-                                <h1 className="text-3xl font-bold text-primary">PlumbRight</h1>
+                                <Building className="size-8 text-primary" />
+                                <h1 className="text-3xl font-bold text-primary">MegaPlumb</h1>
                             </div>
                             <p className="text-muted-foreground text-sm">123 Plumber Lane, Suite 100</p>
                             <p className="text-muted-foreground text-sm">Anytown, USA 12345</p>
-                            <p className="text-muted-foreground text-sm">contact@plumbright.pro</p>
+                            <p className="text-muted-foreground text-sm">contact@megaplumb.pro</p>
                         </div>
                         <div className="text-right">
                             <h2 className="text-3xl font-bold text-gray-700">QUOTE</h2>
