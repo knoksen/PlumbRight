@@ -11,7 +11,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { partsData, type Part } from '@/lib/data';
 import { Line } from '@/components/line';
 import { cn } from '@/lib/utils';
-import { FileText, Trash2 } from 'lucide-react';
+import { FileText } from 'lucide-react';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -136,6 +136,9 @@ export default function StudioPage() {
     if (draggedItem && canvasRef.current) {
         const canvasRect = canvasRef.current.getBoundingClientRect();
 
+        const currentItem = placedItems.find(item => item.id === draggedItem.id);
+        if (!currentItem) return;
+
         let newX = e.clientX - draggedItem.offsetX;
         let newY = e.clientY - draggedItem.offsetY;
 
@@ -143,21 +146,22 @@ export default function StudioPage() {
         newX = Math.round(newX / GRID_SIZE) * GRID_SIZE;
         newY = Math.round(newY / GRID_SIZE) * GRID_SIZE;
         
-        const deltaX = newX - placedItems.find(item => item.id === draggedItem.id)!.x;
-        const deltaY = newY - placedItems.find(item => item.id === draggedItem.id)!.y;
+        const deltaX = newX - currentItem.x;
+        const deltaY = newY - currentItem.y;
 
         setPlacedItems(prev => prev.map(item => item.id === draggedItem.id ? { ...item, x: newX, y: newY } : item));
 
         // Update connections
         setConnections(prev => prev.map(conn => {
-            let newConn = { ...conn };
+            let newFrom = conn.from;
+            let newTo = conn.to;
             if (conn.from.itemId === draggedItem.id) {
-                newConn = { ...newConn, from: { ...conn.from, x: conn.from.x + deltaX, y: conn.from.y + deltaY } };
+                newFrom = { ...conn.from, x: conn.from.x + deltaX, y: conn.from.y + deltaY };
             }
             if (conn.to.itemId === draggedItem.id) {
-                newConn = { ...newConn, to: { ...conn.to, x: conn.to.x + deltaX, y: conn.to.y + deltaY } };
+                newTo = { ...conn.to, x: conn.to.x + deltaX, y: conn.to.y + deltaY };
             }
-            return newConn;
+            return { ...conn, from: newFrom, to: newTo };
         }));
     }
   };
@@ -223,13 +227,20 @@ export default function StudioPage() {
     }, {} as Record<string, number>);
 
     const quoteItems = Object.entries(partCounts).map(([partId, quantity]) => {
-        const part = partsData.find(p => p.id === partId)!;
+        const part = allParts.find(p => p.id === partId)!;
         return { ...part, quantity };
     });
     
     sessionStorage.setItem('studioQuoteData', JSON.stringify(quoteItems));
     router.push('/quote');
   }
+
+  const [customParts] = React.useState<Part[]>(() => {
+    if (typeof window === 'undefined') return [];
+    const saved = localStorage.getItem('customParts');
+    return saved ? JSON.parse(saved) : [];
+  });
+  const allParts = React.useMemo(() => [...partsData, ...customParts], [customParts]);
 
   return (
     <div className="flex flex-col gap-8 h-[calc(100vh-8rem)]">
@@ -272,7 +283,7 @@ export default function StudioPage() {
                 </Button>
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
-                     <Button variant="destructive" size="sm">Clear Canvas</Button>
+                     <Button variant="destructive" size="sm" disabled={placedItems.length === 0}>Clear Canvas</Button>
                   </AlertDialogTrigger>
                   <AlertDialogContent>
                     <AlertDialogHeader>
@@ -283,7 +294,7 @@ export default function StudioPage() {
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                       <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <AlertDialogAction onClick={handleClear}>Clear Canvas</AlertDialogAction>
+                      <AlertDialogAction onClick={handleClear} className="bg-destructive hover:bg-destructive/90">Clear Canvas</AlertDialogAction>
                     </AlertDialogFooter>
                   </AlertDialogContent>
                 </AlertDialog>
