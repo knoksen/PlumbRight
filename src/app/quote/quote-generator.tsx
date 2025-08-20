@@ -60,6 +60,21 @@ export function QuoteGenerator() {
   const allParts = React.useMemo(() => [...partsData, ...customParts], [customParts]);
 
 
+  React.useEffect(() => {
+    const studioPartsData = sessionStorage.getItem('studioQuoteData');
+    if (studioPartsData) {
+        try {
+            const studioItems: QuotedItem[] = JSON.parse(studioPartsData);
+            setQuotedItems(studioItems);
+            // Clear the data so it doesn't persist on refresh
+            sessionStorage.removeItem('studioQuoteData');
+        } catch (error) {
+            console.error("Could not parse studio quote data:", error);
+            sessionStorage.removeItem('studioQuoteData');
+        }
+    }
+  }, []);
+
   const handleApplySuggestion = (suggestion: SuggestQuoteItemsOutput) => {
     // Add suggested parts
     const newItems: QuotedItem[] = [];

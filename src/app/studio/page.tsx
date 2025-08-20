@@ -3,6 +3,7 @@
 
 import * as React from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Draggable } from '@/components/draggable';
@@ -10,6 +11,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { partsData, type Part } from '@/lib/data';
 import { Line } from '@/components/line';
 import { cn } from '@/lib/utils';
+import { FileText } from 'lucide-react';
 
 // A curated list of parts for the palette
 const paletteParts: Part[] = [
@@ -49,6 +51,7 @@ interface Connection {
 
 // Main Studio Component
 export default function StudioPage() {
+  const router = useRouter();
   const [placedItems, setPlacedItems] = React.useState<PlacedItem[]>([]);
   const [connections, setConnections] = React.useState<Connection[]>([]);
   const [drawingLine, setDrawingLine] = React.useState<{ from: ConnectionPoint, to: {x: number, y: number} } | null>(null);
@@ -176,6 +179,21 @@ export default function StudioPage() {
     setDrawingLine(null);
   };
 
+  const handleCreateQuote = () => {
+    const partCounts = placedItems.reduce((acc, item) => {
+        acc[item.part.id] = (acc[item.part.id] || 0) + 1;
+        return acc;
+    }, {} as Record<string, number>);
+
+    const quoteItems = Object.entries(partCounts).map(([partId, quantity]) => {
+        const part = partsData.find(p => p.id === partId)!;
+        return { ...part, quantity };
+    });
+    
+    sessionStorage.setItem('studioQuoteData', JSON.stringify(quoteItems));
+    router.push('/quote');
+  }
+
   return (
     <div className="flex flex-col gap-8 h-[calc(100vh-8rem)]">
       <div>
@@ -210,7 +228,13 @@ export default function StudioPage() {
         <Card className="flex flex-col">
           <CardHeader className="flex-row items-center justify-between">
             <CardTitle>Canvas</CardTitle>
-            <Button variant="outline" size="sm" onClick={handleClear}>Clear Canvas</Button>
+            <div className="flex items-center gap-2">
+                 <Button variant="outline" size="sm" onClick={handleCreateQuote} disabled={placedItems.length === 0}>
+                    <FileText className="mr-2 size-4" />
+                    Create Quote from Design
+                </Button>
+                <Button variant="outline" size="sm" onClick={handleClear}>Clear Canvas</Button>
+            </div>
           </CardHeader>
           <CardContent
             ref={canvasRef}
