@@ -3,7 +3,8 @@
 
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { TrendingUp, Wrench, Calculator, Users } from 'lucide-react';
+import { TrendingUp, Wrench, Calculator, Users, Construction } from 'lucide-react';
+import Link from 'next/link';
 import {
   ChartContainer,
   ChartTooltip,
@@ -71,16 +72,18 @@ export default function DashboardPage() {
             <p className="text-xs text-muted-foreground">AI feature usage</p>
           </CardContent>
         </Card>
+        <Link href="/studio">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">New Customers</CardTitle>
-            <Users className="size-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium">Design Studio</CardTitle>
+            <Construction className="size-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">+12</div>
-            <p className="text-xs text-muted-foreground">Building your client base</p>
+            <div className="text-2xl font-bold">New</div>
+            <p className="text-xs text-muted-foreground">Visually plan your projects</p>
           </CardContent>
         </Card>
+        </Link>
       </div>
       <Card>
         <CardHeader>

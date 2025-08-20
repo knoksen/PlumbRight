@@ -35,11 +35,11 @@ import { cn } from '@/lib/utils';
 
 const menuItems = [
   { href: '/', label: 'Dashboard', icon: Home },
-  { href: '/studio', label: 'Studio', icon: Construction },
   { href: '/parts', label: 'Parts Library', icon: Library },
 ];
 
 const aiTools = [
+    { href: '/studio', label: 'Studio', icon: Construction },
     { href: '/validate', label: 'Part Validation', icon: CheckCircle },
     { href: '/quote', label: 'Quote Generator', icon: Calculator },
 ]

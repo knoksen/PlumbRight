@@ -24,6 +24,7 @@ const ValidatePlumbingPartOutputSchema = z.object({
   partType: z.string().describe('The suggested type of the plumbing part.'),
   material: z.string().describe('The suggested material of the plumbing part.'),
   connectionType: z.string().describe('The suggested connection type of the plumbing part.'),
+  confidenceScore: z.number().describe('A confidence score from 0 to 100 for the suggestion.'),
 });
 export type ValidatePlumbingPartOutput = z.infer<typeof ValidatePlumbingPartOutputSchema>;
 
@@ -42,7 +43,7 @@ You will use this information to identify the part type, material, and connectio
 Description: {{{description}}}
 Photo: {{media url=photoDataUri}}
 
-Suggest the part type, material, and connection type.
+Suggest the part type, material, connection type, and a confidence score from 0 to 100 for the suggestion.
 `,
 });
 

@@ -14,6 +14,7 @@ import { useToast } from '@/hooks/use-toast';
 import { handleValidation } from './actions';
 import type { ValidatePlumbingPartOutput } from '@/ai/flows/validate-plumbing-part';
 import { Upload, Wand2, CheckCircle, Info, Loader2 } from 'lucide-react';
+import { Progress } from '@/components/ui/progress';
 
 const formSchema = z.object({
   description: z.string().min(10, {
@@ -193,6 +194,16 @@ export function ValidationForm() {
                   <div>
                     <h3 className="font-semibold">Connection Type</h3>
                     <p className="text-muted-foreground">{result.connectionType}</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="mt-1 size-5 shrink-0 text-green-500" />
+                  <div>
+                    <h3 className="font-semibold">Confidence Score</h3>
+                    <div className="flex items-center gap-2">
+                        <Progress value={result.confidenceScore} className="w-full" />
+                        <span className="font-semibold">{result.confidenceScore}%</span>
+                    </div>
                   </div>
                 </div>
               </div>
