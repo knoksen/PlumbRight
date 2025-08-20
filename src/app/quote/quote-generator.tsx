@@ -58,6 +58,7 @@ export function QuoteGenerator() {
 
   const [customParts] = useLocalStorage<Part[]>('customParts', []);
   const allParts = React.useMemo(() => [...partsData, ...customParts], [customParts]);
+  const [, setQuotesCreatedCount] = useLocalStorage<number>('quotesCreatedCount', 0);
 
 
   React.useEffect(() => {
@@ -184,6 +185,7 @@ export function QuoteGenerator() {
           }
       };
       sessionStorage.setItem('quoteData', JSON.stringify(quoteData));
+      setQuotesCreatedCount(prev => prev + 1);
       router.push('/quote/view');
   }
 

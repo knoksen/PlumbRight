@@ -17,6 +17,7 @@ import { handleValidation } from './actions';
 import type { ValidatePlumbingPartOutput } from '@/ai/flows/validate-plumbing-part';
 import { Upload, Wand2, CheckCircle, Info, Loader2, PlusCircle } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
+import { useLocalStorage } from '@/hooks/use-local-storage';
 
 const formSchema = z.object({
   description: z.string().min(10, {
@@ -36,6 +37,7 @@ export function ValidationForm() {
   const [isLoading, setIsLoading] = React.useState(false);
   const [result, setResult] = React.useState<ValidationResult | null>(null);
   const { toast } = useToast();
+  const [, setPartsValidatedCount] = useLocalStorage<number>('partsValidatedCount', 0);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -85,6 +87,7 @@ export function ValidationForm() {
           photoDataUrl: photoDataUri,
           originalDescription: values.description 
         });
+        setPartsValidatedCount(prev => prev + 1);
       } catch (error) {
         console.error('Validation failed:', error);
         toast({

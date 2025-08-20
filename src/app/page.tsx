@@ -1,6 +1,7 @@
 
 'use client';
 
+import * as React from 'react';
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { TrendingUp, Wrench, Calculator, Construction } from 'lucide-react';
@@ -13,28 +14,18 @@ import {
   ChartLegendContent,
   type ChartConfig,
 } from '@/components/ui/chart';
+import { useLocalStorage } from '@/hooks/use-local-storage';
+import { chartData, chartConfig, totalRevenue, revenueGrowth } from '@/lib/dashboard-data';
 
-const chartData = [
-  { month: 'Jan', quotes: 12, revenue: 2400 },
-  { month: 'Feb', quotes: 18, revenue: 3800 },
-  { month: 'Mar', quotes: 22, revenue: 4500 },
-  { month: 'Apr', quotes: 25, revenue: 5800 },
-  { month: 'May', quotes: 21, revenue: 4900 },
-  { month: 'Jun', quotes: 32, revenue: 7200 },
-];
-
-const chartConfig = {
-  revenue: {
-    label: 'Revenue',
-    color: 'hsl(var(--chart-1))',
-  },
-  quotes: {
-    label: 'Quotes',
-    color: 'hsl(var(--chart-2))',
-  },
-} satisfies ChartConfig;
 
 export default function DashboardPage() {
+  const [quotesCreated] = useLocalStorage<number>('quotesCreatedCount', 0);
+  const [partsValidated] = useLocalStorage<number>('partsValidatedCount', 0);
+  
+  // This is a mock value for now, but could be calculated
+  const quotesGrowth = Math.round((quotesCreated / (130 + quotesCreated)) * 100) || 22;
+
+
   return (
     <div className="flex flex-col gap-8">
       <div>
@@ -48,8 +39,8 @@ export default function DashboardPage() {
             <TrendingUp className="size-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">$28,600</div>
-            <p className="text-xs text-muted-foreground">+15.2% from last month</p>
+            <div className="text-2xl font-bold">${totalRevenue.toLocaleString()}</div>
+            <p className="text-xs text-muted-foreground">+{revenueGrowth}% from last month</p>
           </CardContent>
         </Card>
         <Card>
@@ -58,8 +49,8 @@ export default function DashboardPage() {
             <Calculator className="size-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">+130</div>
-            <p className="text-xs text-muted-foreground">+22% from last month</p>
+            <div className="text-2xl font-bold">+{quotesCreated}</div>
+            <p className="text-xs text-muted-foreground">About +{quotesGrowth}% from last month</p>
           </CardContent>
         </Card>
         <Card>
@@ -68,8 +59,8 @@ export default function DashboardPage() {
             <Wrench className="size-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">+78</div>
-            <p className="text-xs text-muted-foreground">AI feature usage</p>
+            <div className="text-2xl font-bold">+{partsValidated}</div>
+            <p className="text-xs text-muted-foreground">Total AI validations</p>
           </CardContent>
         </Card>
         <Link href="/studio">
