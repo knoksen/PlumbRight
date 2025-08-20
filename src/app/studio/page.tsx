@@ -53,6 +53,8 @@ export default function StudioPage() {
   const [connections, setConnections] = React.useState<Connection[]>([]);
   const [drawingLine, setDrawingLine] = React.useState<{ from: ConnectionPoint, to: {x: number, y: number} } | null>(null);
   const canvasRef = React.useRef<HTMLDivElement>(null);
+  const [draggedItem, setDraggedItem] = React.useState<{id: string, offsetX: number, offsetY: number} | null>(null);
+
 
   // --- Drag and Drop Handlers ---
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
@@ -87,6 +89,51 @@ export default function StudioPage() {
     e.preventDefault();
     e.dataTransfer.dropEffect = 'copy';
   };
+
+  const handleItemDragStart = (e: React.MouseEvent<HTMLDivElement>, item: PlacedItem) => {
+    if (drawingLine) return; // Don't drag item if we're drawing a line
+    e.preventDefault();
+    const offsetX = e.clientX - item.x;
+    const offsetY = e.clientY - item.y;
+    setDraggedItem({ id: item.id, offsetX, offsetY });
+  };
+  
+  const handleCanvasMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    handleMouseMove(e); // For drawing line
+    if (draggedItem && canvasRef.current) {
+        const canvasRect = canvasRef.current.getBoundingClientRect();
+
+        let newX = e.clientX - draggedItem.offsetX;
+        let newY = e.clientY - draggedItem.offsetY;
+
+        // Snap to grid
+        newX = Math.round(newX / GRID_SIZE) * GRID_SIZE;
+        newY = Math.round(newY / GRID_SIZE) * GRID_SIZE;
+
+        setPlacedItems(prev => prev.map(item => item.id === draggedItem.id ? { ...item, x: newX, y: newY } : item));
+
+        // Update connections
+        setConnections(prev => prev.map(conn => {
+            if (conn.from.itemId === draggedItem.id) {
+                const fromItem = placedItems.find(p => p.id === draggedItem.id)!;
+                const newFromPoint = getConnectionPoints(fromItem).find(p => p.x === conn.from.x && p.y === conn.from.y) || conn.from;
+                const updatedPoint = { ...conn.from, x: conn.from.x - fromItem.x + newX, y: conn.from.y - fromItem.y + newY};
+                 return { ...conn, from: updatedPoint };
+            }
+            if (conn.to.itemId === draggedItem.id) {
+                const toItem = placedItems.find(p => p.id === draggedItem.id)!;
+                const updatedPoint = { ...conn.to, x: conn.to.x - toItem.x + newX, y: conn.to.y - toItem.y + newY };
+                 return { ...conn, to: updatedPoint };
+            }
+            return conn;
+        }));
+    }
+  };
+
+  const handleItemDragEnd = () => {
+    setDraggedItem(null);
+  };
+
 
   // --- Canvas and Item Management ---
   const handleClear = () => {
@@ -169,9 +216,10 @@ export default function StudioPage() {
             ref={canvasRef}
             onDrop={handleDrop}
             onDragOver={handleDragOver}
-            onMouseMove={handleMouseMove}
-            onMouseUp={() => setDrawingLine(null)}
-            className="flex-1 relative bg-muted/20 rounded-md border-2 border-dashed overflow-hidden"
+            onMouseMove={handleCanvasMouseMove}
+            onMouseUp={() => { handleItemDragEnd(); setDrawingLine(null); }}
+            onMouseLeave={handleItemDragEnd}
+            className="flex-1 relative bg-muted/20 rounded-md border-2 border-dashed overflow-hidden cursor-default"
           >
             {/* Grid background */}
             <svg width="100%" height="100%" className="absolute inset-0">
@@ -185,7 +233,17 @@ export default function StudioPage() {
             
             {/* Connections */}
             <svg className="absolute top-0 left-0 w-full h-full pointer-events-none">
-              {connections.map(conn => <Line key={conn.id} from={conn.from} to={conn.to} />)}
+              {connections.map(conn => {
+                  const fromItem = placedItems.find(p => p.id === conn.from.itemId);
+                  const toItem = placedItems.find(p => p.id === conn.to.itemId);
+                  if (!fromItem || !toItem) return null;
+                  
+                  const fromPoint = getConnectionPoints(fromItem).find(p => p.x === conn.from.x && p.y === conn.from.y) || conn.from;
+                  const toPoint = getConnectionPoints(toItem).find(p => p.x === conn.to.x && p.y === conn.to.y) || conn.to;
+                  
+                  return <Line key={conn.id} from={conn.from} to={conn.to} />
+              })}
+
               {drawingLine && <Line from={drawingLine.from} to={drawingLine.to} isTemporary />}
             </svg>
 
@@ -193,11 +251,15 @@ export default function StudioPage() {
             {placedItems.map((item) => (
               <div
                 key={item.id}
-                className="group absolute flex flex-col items-center justify-center bg-background/80 p-2 rounded-md shadow-md hover:shadow-lg hover:border-primary border-transparent border-2 transition-all"
+                onMouseDown={(e) => handleItemDragStart(e, item)}
+                className={cn(
+                    "group absolute flex flex-col items-center justify-center bg-background/80 p-2 rounded-md shadow-md hover:shadow-lg hover:border-primary border-transparent border-2 transition-all",
+                    draggedItem?.id === item.id ? "cursor-grabbing border-primary" : "cursor-grab"
+                )}
                 style={{ left: `${item.x}px`, top: `${item.y}px`, width: `${item.width}px`, height: `${item.height}px` }}
               >
-                <Image src={item.part.imageUrl} alt={item.part.name} layout="fill" className="object-contain p-4" data-ai-hint={item.part.aiHint}/>
-                <span className="absolute -bottom-6 text-xs bg-background/90 px-2 py-0.5 rounded">{item.part.name}</span>
+                <Image src={item.part.imageUrl} alt={item.part.name} layout="fill" className="object-contain p-4 pointer-events-none" data-ai-hint={item.part.aiHint}/>
+                <span className="absolute -bottom-6 text-xs bg-background/90 px-2 py-0.5 rounded pointer-events-none">{item.part.name}</span>
                 
                 {/* Connection Points */}
                 {getConnectionPoints(item).map((point, index) => (
