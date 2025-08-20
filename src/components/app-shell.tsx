@@ -83,7 +83,7 @@ function Layout({ children }: { children: React.ReactNode }) {
   return (
       <SidebarInset>
         <header className="no-print sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background/95 px-4 backdrop-blur-sm sm:h-16 sm:px-6">
-          <SidebarTrigger className="md:hidden" />
+          <SidebarTrigger className="sm:hidden" />
           <div className="flex items-center gap-4 ml-auto">
             <ThemeSwitcher />
              <Avatar className="h-9 w-9">
