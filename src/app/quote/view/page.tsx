@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from 'react';
@@ -71,7 +72,7 @@ export default function QuoteViewPage() {
 
     const { projectDetails, quotedItems, customItems, costs } = quoteData;
     const hasParts = quotedItems.length > 0;
-    const hasCustomItems = customItems.length > 0;
+    const hasCustomItems = customItems.filter(item => item.description || item.amount > 0).length > 0;
 
     return (
         <>
@@ -149,17 +150,20 @@ export default function QuoteViewPage() {
                             ))}
                              {hasCustomItems && (
                                  <TableRow className="bg-gray-50 font-semibold text-gray-600 text-xs">
-                                    <TableCell colSpan={4} className="py-2 px-4">Other Items</TableCell>
+                                    <TableCell colSpan={4} className="py-2 px-4">Other Charges & Services</TableCell>
                                 </TableRow>
                             )}
-                            {customItems.map(item => (
-                                <TableRow key={item.id} className="text-sm">
-                                    <TableCell className="font-medium px-4">{item.description || "Custom Item"}</TableCell>
-                                    <TableCell className="text-center px-4">-</TableCell>
-                                    <TableCell className="text-right px-4">-</TableCell>
-                                    <TableCell className="text-right px-4 font-medium">${Number(item.amount).toFixed(2)}</TableCell>
-                                </TableRow>
-                            ))}
+                             {customItems.map(item => {
+                                if (!item.description && item.amount === 0) return null;
+                                return (
+                                    <TableRow key={item.id} className="text-sm">
+                                        <TableCell className="font-medium px-4">{item.description || "Custom Item"}</TableCell>
+                                        <TableCell className="text-center px-4">-</TableCell>
+                                        <TableCell className="text-right px-4">-</TableCell>
+                                        <TableCell className="text-right px-4 font-medium">${Number(item.amount).toFixed(2)}</TableCell>
+                                    </TableRow>
+                                )
+                            })}
                         </TableBody>
                     </Table>
                 </section>
@@ -182,12 +186,15 @@ export default function QuoteViewPage() {
                             <span className="text-muted-foreground">Shipping/Misc.</span>
                             <span>${Number(costs.shipping).toFixed(2)}</span>
                         </div>
-                         {customItems.map(item => (
-                            <div key={item.id} className="flex justify-between">
-                                <span className="text-muted-foreground">{item.description || 'Custom Item'}</span>
-                                <span>${Number(item.amount).toFixed(2)}</span>
-                            </div>
-                        ))}
+                         {customItems.map(item => {
+                             if (!item.description && item.amount === 0) return null;
+                             return (
+                                <div key={item.id} className="flex justify-between">
+                                    <span className="text-muted-foreground">{item.description || 'Custom Item'}</span>
+                                    <span>${Number(item.amount).toFixed(2)}</span>
+                                </div>
+                            )
+                        })}
                         <Separator />
                         <div className="flex justify-between font-semibold">
                             <span className="text-muted-foreground">Subtotal</span>
