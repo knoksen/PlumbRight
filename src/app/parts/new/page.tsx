@@ -166,7 +166,7 @@ function AddCustomPartForm() {
                         className="flex h-40 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-border transition-colors hover:border-primary"
                       >
                         {photoPreview ? (
-                          <Image src={photoPreview} alt="Part preview" width={120} height={120} className="h-full w-auto object-contain p-2" />
+                          <Image src={photoPreview} alt="Part preview" width={100} height={100} className="h-full w-auto object-contain p-2" />
                         ) : (
                           <div className="flex flex-col items-center gap-2 text-muted-foreground">
                             <Upload className="size-8" />
@@ -207,3 +207,4 @@ export default function AddCustomPartPage() {
   );
 }
 
+    

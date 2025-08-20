@@ -69,8 +69,8 @@ export default function PartsLibraryPage() {
                         <Image
                           src={part.imageUrl}
                           alt={part.name}
-                          width={64}
-                          height={64}
+                          width={100}
+                          height={100}
                           className="rounded-md object-cover"
                           data-ai-hint={part.aiHint}
                         />
@@ -97,3 +97,5 @@ export default function PartsLibraryPage() {
     </div>
   );
 }
+
+    
