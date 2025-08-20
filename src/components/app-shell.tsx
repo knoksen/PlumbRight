@@ -123,7 +123,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                   }}
                 >
                   <Link href={item.href}>
-                    <item.icon />
+                    <item.icon className="size-5" />
                     <span>{item.label}</span>
                   </Link>
                 </SidebarMenuButton>
@@ -152,7 +152,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                               }}
                             >
                               <Link href={item.href}>
-                                <item.icon />
+                                <item.icon className="size-4" />
                                 <span>{item.label}</span>
                               </Link>
                             </SidebarMenuButton>
