@@ -200,6 +200,69 @@ export const partsData: Part[] = [
     aiHint: 'pex elbow',
     category: 'Pipes & Fittings',
   },
+  {
+    id: 'pex-crimp-ring-1-2',
+    name: '1/2" PEX Crimp Ring',
+    description: 'Copper crimp ring for securing 1/2" PEX tubing to brass fittings.',
+    price: 0.25,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'crimp ring',
+    category: 'Pipes & Fittings',
+  },
+  {
+    id: 'pvc-wye-4in',
+    name: '4" PVC Wye',
+    description: 'A 4-inch PVC wye fitting for connecting three pipes in a Y-shape.',
+    price: 8.99,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'pvc wye',
+    category: 'Pipes & Fittings',
+  },
+  {
+    id: 'copper-elbow-45-1-2',
+    name: '1/2" Copper 45-Degree Elbow',
+    description: 'Copper elbow for a 45-degree change in direction. Sweat connections.',
+    price: 1.49,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'copper elbow',
+    category: 'Pipes & Fittings',
+  },
+  {
+    id: 'brass-nipple-1-2-4in',
+    name: 'Brass Nipple, 1/2" x 4"',
+    description: 'Lead-free brass nipple for water applications.',
+    price: 5.49,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'brass nipple',
+    category: 'Pipes & Fittings',
+  },
+  {
+    id: 'pvc-pipe-sch80-1in-5ft',
+    name: '1" Sch 80 PVC Pipe - 5ft',
+    description: '5-foot length of Schedule 80 PVC pipe for high-pressure applications.',
+    price: 14.99,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'pvc pipe',
+    category: 'Pipes & Fittings',
+  },
+  {
+    id: 'abs-p-trap-1-1-2',
+    name: '1-1/2" ABS P-Trap Assembly',
+    description: 'ABS P-trap for drain applications, common in residential and commercial.',
+    price: 7.99,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'abs trap',
+    category: 'Pipes & Fittings',
+  },
+  {
+    id: 'cpvc-tee-3-4',
+    name: '3/4" CPVC Tee',
+    description: 'CPVC tee for branching a 3/4" hot or cold water line.',
+    price: 2.29,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'cpvc tee',
+    category: 'Pipes & Fittings',
+  },
 
   // Valves
   {
@@ -335,6 +398,24 @@ export const partsData: Part[] = [
     price: 18.75,
     imageUrl: 'https://placehold.co/100x100.png',
     aiHint: 'foot valve',
+    category: 'Valves',
+  },
+  {
+    id: 'globe-valve-1in',
+    name: '1" Brass Globe Valve',
+    description: 'Brass globe valve for throttling and flow regulation.',
+    price: 28.99,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'globe valve',
+    category: 'Valves',
+  },
+  {
+    id: 'needle-valve-1-4in',
+    name: '1/4" Brass Needle Valve',
+    description: 'For precise flow control of liquids and gases.',
+    price: 11.99,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'needle valve',
     category: 'Valves',
   },
 
@@ -519,6 +600,34 @@ export const partsData: Part[] = [
     aiHint: 'shower arm',
     category: 'Fixtures',
   },
+  {
+    id: 'bar-sink',
+    name: '15" Undermount Bar Sink',
+    description: 'Small stainless steel sink for a bar or prep area.',
+    price: 129.00,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'bar sink',
+    category: 'Fixtures',
+  },
+  {
+    id: 'freestanding-tub',
+    name: '60" Acrylic Freestanding Tub',
+    description: 'Modern freestanding soaking tub with center drain.',
+    price: 799.00,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'freestanding tub',
+    category: 'Fixtures',
+  },
+  {
+    id: 'toilet-wax-ring',
+    name: 'Wax Ring with Bolts',
+    description: 'Reinforced wax gasket for setting a new toilet.',
+    price: 5.99,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'wax ring',
+    category: 'Fixtures',
+  },
+
 
   // Tools & Sealants
   {
@@ -665,6 +774,33 @@ export const partsData: Part[] = [
     aiHint: 'flux paste',
     category: 'Tools & Sealants',
   },
+  {
+    id: 'strap-wrench',
+    name: '12" Strap Wrench',
+    description: 'For gripping polished pipes without scratching. 2-inch capacity.',
+    price: 18.99,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'strap wrench',
+    category: 'Tools & Sealants',
+  },
+  {
+    id: 'pvc-pipe-cutter',
+    name: 'Ratchet PVC Cutter',
+    description: 'Cuts up to 2-inch PVC pipe. Ratcheting action for easy cutting.',
+    price: 29.99,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'pvc cutter',
+    category: 'Tools & Sealants',
+  },
+  {
+    id: 'drain-cleaning-bladder',
+    name: 'Drain Cleaning Bladder',
+    description: 'Attaches to a garden hose to clear clogs with water pressure. Fits 1-1/2" to 3" drains.',
+    price: 14.99,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'drain bladder',
+    category: 'Tools & Sealants',
+  },
 
   // Systems
   {
@@ -793,6 +929,24 @@ export const partsData: Part[] = [
     aiHint: 'iron filter',
     category: 'Systems',
   },
+  {
+    id: 'uv-water-purification',
+    name: 'UV Water Purification System',
+    description: 'Ultraviolet light system for disinfecting water. 12 GPM flow rate.',
+    price: 450.00,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'uv system',
+    category: 'Systems',
+  },
+  {
+    id: 'grinder-pump',
+    name: '1 HP Grinder Pump',
+    description: 'High-performance pump that grinds sewage for pumping over long distances.',
+    price: 650.00,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'grinder pump',
+    category: 'Systems',
+  },
 
   // Specialty
   {
@@ -903,6 +1057,33 @@ export const partsData: Part[] = [
     aiHint: 'pipe thawer',
     category: 'Specialty',
   },
+  {
+    id: 'vacuum-breaker-hose-bibb',
+    name: 'Hose Bibb Vacuum Breaker',
+    description: 'Prevents back-siphonage of contaminated water into the potable water supply.',
+    price: 12.99,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'vacuum breaker',
+    category: 'Specialty',
+  },
+  {
+    id: 'anode-rod',
+    name: 'Magnesium Anode Rod',
+    description: '44-inch flexible magnesium anode rod for water heaters.',
+    price: 29.99,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'anode rod',
+    category: 'Specialty',
+  },
+  {
+    id: 'pipe-repair-clamp',
+    name: '2" Pipe Repair Clamp',
+    description: 'Stainless steel clamp with rubber gasket for emergency pipe repairs.',
+    price: 19.99,
+    imageUrl: 'https://placehold.co/100x100.png',
+    aiHint: 'repair clamp',
+    category: 'Specialty',
+  },
 
   // Rare & Obsolete Parts
   {
@@ -987,5 +1168,3 @@ export const partsData: Part[] = [
     category: 'Rare & Obsolete Parts',
   },
 ];
-
-    
